@@ -1,0 +1,47 @@
+\section{Demo}
+This section demonstates how to do things in this document.
+There are a few things that make working collaborativly on a large document easier. 
+First, \textit{please keep a single sentence per line in the \TeX\ files.}
+This makes using version control easier since a small change doesn't look like an entire paragraph changed.
+Second, \texttt{git diff -{}-word-diff} is a really nice tool for gettting differences between text documents rather than source code.
+
+\subsection{Equations}
+Here is an example equation that uses the equation enviroment and inline equations.
+\begin{quote}
+The sum of these weighted energy terms is the score of the pose for that scoring function. 
+
+\begin{equation}
+E_{\text{pose}} = \sum_{i}^{n_{\text{res}}} W_{x} E_{x,i} + ... + W_{y} E_{y,i}
+\end{equation}
+Where $n$ is the total number of residues, $W_{x}$ is the weight on energy term $x$ (eg.\ \texttt{fa\_rep}, \texttt{fa\_solv}, etc.), $E_{x,i}$ is the energy for energy term $x$ for the residue at position $i$. 
+The individual weights, $W_x$, on each energy term are fit using a special protocol called \texttt{OptE}.
+\end{quote}
+
+\subsection{Tables}
+An example table is shown in Table~\ref{supptbl:rot_lib_snpshot_nmeo}.
+This also shows how to reference tables and figures.
+
+\begin{table}
+  \centering
+  \caption{Rotamers produced by the KMC or QMS rotamer library creation protocols for the NPHE peptoid side chain for a preceding-$\omega$, $\phi$, and $\psi$ of \ang{0}, \ang{-90}, \ang{180}}
+  \label{supptbl:rot_lib_snpshot_nmeo}
+  \begin{tabular}{rrrcrrr}
+    \toprule
+    \multicolumn{3}{c}{KMC} && \multicolumn{3}{c}{QMS} \\
+    \cmidrule{1-3} \cmidrule{5-7}
+    Prob & $\chi_1$  & $\chi_2$ && Prob & $\chi_1$  & $\chi_2$ \\
+    \midrule
+    0.98 & \ang{100}  &  \ang{88}  && 0.71 & \ang{82}  &  \ang{-116} \\
+    0.01 & \ang{103}  &  \ang{-39} && 0.29 & \ang{-91} &  \ang{-71}  \\
+    0.01 & \ang{-92}  &  \ang{107} && ~ & ~ & ~ \\
+    0.00 & \ang{-142} &  \ang{52}  && ~ & ~ & ~ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Bibliography}
+There will be two bibliography files: \texttt{auto.bib} and \texttt{byhand.bib}.
+The former will contain an auto-generated bibliography file exported from a reference manager.
+The later is for references that are difficult to get in to the reference manager (eg.~Gaussian).
+If you have any papers you want to add, send them to me and I will add them to my reference manager and update the file.
+Here is an example citation\cite{jacak_computational_2012}.

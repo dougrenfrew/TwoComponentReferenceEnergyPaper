@@ -1,0 +1,97 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% master document for tcre.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% class
+\documentclass[abstract,english]{scrartcl}
+
+%%%%%%%%%%%%%%%%%%%%
+%%% preamble
+%%%%%%%%%%%%%%%%%%%%
+
+%%% font encodings
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+%%% bibliography
+\usepackage[
+  backend=biber,
+  style=nature,
+  natbib=true,
+  url=false, 
+  doi=false,
+  isbn=false,
+  eprint=false,
+  sorting=none
+]{biblatex}
+
+\addbibresource{Bibliography/byhand.bib}
+
+%%% revision information
+\usepackage[mark]{gitinfo2}
+\renewcommand{\gitMark}{Branch: \gitBranch @\gitAbbrevHash \gitDirty\ \textbullet{} Author: \gitAuthorName\,(\gitAuthorIsoDate) \textbullet{} Tags: \gitTags}
+\renewcommand{\gitMarkFormat}{\small}
+
+%%% clicakable colored links
+\usepackage{xcolor}
+\usepackage[colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue,
+  anchorcolor=blue
+]{hyperref}
+
+%%% nicier charater proturution, kerning, etc.
+\usepackage{microtype}
+
+%%% more math symbols
+\usepackage{amsmath}
+\usepackage{mathpazo}
+%\usepackage{textgreek}
+
+%%% proper fomating of units
+\usepackage{siunitx}
+
+%%% better tables
+\usepackage{booktabs}
+
+%%% dummy text
+\usepackage{lipsum}
+
+%%% title
+\title{Two-Component Reference Energy for the Design of Proteins and Foldamers}
+
+%%% authors
+\author{P. Douglas Renfrew \and Riley Simons-Elder \and Andrew Watkins \and Paramjit Arora \and Richard Bonneau\thanks{Author order not finalized}}
+
+%%% date
+\date{}
+
+%%%%%%%%%%%%%%%%%%%%
+%%% document
+%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+%%% abstract 
+\input{Sections/abstract}
+
+%%% toc
+\tableofcontents
+
+%%% demo
+\input{Sections/demo}
+
+%%% sections
+\input{Sections/introduction}
+\input{Sections/methods}
+\input{Sections/results}
+\input{Sections/discussion}
+\input{Sections/acknowledgments}
+
+%%% references
+\printbibliography
+
+\end{document}
