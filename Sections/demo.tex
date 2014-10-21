@@ -1,9 +1,15 @@
 \section{Demo}
 This section demonstates how to do things in this document.
 There are a few things that make working collaborativly on a large document easier. 
-First, \textit{please keep a single sentence per line in the \TeX\ files.}
+First, \textit{\textbf{please keep a single sentence per line in the \TeX\ files.}}
 This makes using version control easier since a small change doesn't look like an entire paragraph changed.
 Second, \texttt{git diff -{}-word-diff} is a really nice tool for gettting differences between text documents rather than source code.
+
+\subsection{Quotations}
+Modern editors, like Micrsoft Word, try to infer the begining and ends of of quotes to so that the proper formating of the quotation marks can be used. For example, ``test'' and `test' are correct, "test" and 'test' are not.
+They call this feature ``smart quotes.''
+Latex requires you to be explicite using \texttt{`{}`word'{}'} (back-tic, back-tic, <word>, single-quote, single-quote) rather than \texttt{"word"} (double-quote, <word>, double-quote).
+Smarter editors, like Emacs, do this automagically.
 
 \subsection{Equations}
 Here is an example equation that uses the equation enviroment and inline equations.
