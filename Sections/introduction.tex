@@ -1,2 +1,25 @@
 \section{Introduction}
-The introduction can be the hardest part to write.
+The computational design of macromolecules like proteins has permitted dramatic advances in chemical and synthetic biology.
+Protein design has resulted in advances in basic knowledge, such as the creation of proteins with novel folds, as well as promising technologies, such as the creation and optimization of enzymes that can conduct reactions that are not performed by natural enzymes.
+\subsection{Changing protein sequence is a unique problem in protein modeling}
+Unlike continuous, quantitative transformations to a protein structure, such as altering internal coordinates, changes in sequence are discrete and qualitative.
+Algorithms for performing design commonly substitute a rotamer of a mutant amino acid in place of a rotamer of the native amino acid, in a method exactly analogous to fixed-sequence side chain packing.
+One issue with these discrete changes is that residues with more chi angles are intrinsically disfavored: the likelihood that a mutation is made is related to the likelihood that the initially selected rotamer is an appropriate one, which is less likely the more options are available.
+Thus, it is a common practice to incorporate reference energies to maximize a design protocol's recovery of native protein sequences. These reference energies effectively re-bias the underlying amino acid distribution better to reproduce that of native proteins.
+\subsection{An unfolded state energy as a reference energy proxy}
+The incorporation of non-canonical amino acids (NCAAs) into Rosetta was a major boon to peptide and peptidomimetic design. 
+Regrettably, due to a paucity of structural information, NCAAs cannot benefit from a statistically derived reference energy or a sequence recovery benchmark. 
+A new strategy was employed to provide NCAA weights. Rosetta's scoring scheme is intended to provide an empirical energy that serves as a proxy for the free energy of folding. 
+Thus, an attempt to model the energetic value of an NCAA in the "unfolded state" might provide an analogous baseline for design. 
+To construct the unfolded state energy for a given NCAA, the middle residue from each fragment in Rosetta's 9-mer fragment library was mutated... [DOUG DO THIS]
+\subsection{Single component unfolded state energies are inadequate}
+The unfolded state energies permitted the design and synthesis of NCAA-containing peptides and peptidomimetics (BROOKE/KEVIN REF, PEPTOIDS REF?) but were wanting in several ways
+\subsubsection{The unfolded state energy protocol prevents the use of $\beta^3$-residues and other oligomer types.}
+The reliance on native, peptidic fragment libraries meant that the insertion of a highly non-canonical backbone as the central residue would be difficult. 
+For example, the incorporation of peptoid residues into Rosetta required the mutation of residues on either side of the peptoid residue of interest. 
+For $\beta^3$-residues, for which the backbone contains an extra methylene unit, insertion would be impossible; certainly, it would require such an alteration to the native context that the utility of a native fragment library would be lost. 
+With this in mind, it appeared appropriate to devise a scheme that did not require evaluating a residue in an incompatible, peptidic context. 
+\subsubsection{Reference energies derived from the single-component protocol heavily favored large residues.}
+The fragment-mutate-score process invariably resulted in residues with reference energies that contained a relatively small attractive term, simply because few fragments made favorable contacts with the mutated residue. This chemical context meant that each marginal atom possessed by a residue was an additional opportunity to make favorable interactions in the folded state. Thus, large residues like arginine and tryptophan predominate barring truly prohibitive repulsive interactions.
+\subsubsection{A more flexible system might permit alternative sets of reference energies.}
+With the increasing incorporation of peptidomimetic scaffolds into Rosetta, a flexible reference energy system might be employed to give different energetic descriptions in different chemical contexts. A $\beta^3$-homoleucine residue is chemically different in the context of a 3(14) helix versus a mixed $\alpha$-$\beta$ peptide.
