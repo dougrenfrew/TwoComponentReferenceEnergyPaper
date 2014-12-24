@@ -1,8 +1,9 @@
 \section{Methods}
-\subsection{Determining the single-body reference energy component}
-Acetylated and N-methylamidated protein residues, or acetylated and N-dimethylamidated peptide residues, were constructed in Rosetta. The backbone angles of these residues were scanned to find the lowest total intra-residue energy. With the canonical scoring function, the intra-residue terms were , and , while with mm\_std, the intra-residue terms were . For each set of backbone dihedrals, the backbone was minimized, and side chain was repacked. The reference energy's one body component was taken as the smallest energy thus determined.
+\subsection{Traditional reference energy in rosetta}
+What we did before, and how it came to be. It's got an equation, like this:
 
-METHOD FIGURE
+<some equation>
+
 
 \subsection{Generating per-atom-type reference energies}
 
@@ -11,5 +12,46 @@ Each from the curated Top8000 benchmark set (RICHARDSON REF) was scored with Ros
 TABLE illustrating these atom types. I'm thinking a table at least containing GLY CA, ALA CA, ALA CB, and ALA C as rows. Elemental would group them all as C, MM/Rosetta would distinguish the CA+CB from C, Unique would distinguish all 4.
 
 We considered different methods for obtaining an appropriate measure of centrality for the different distributions produced by these scoring terms, including the mean, median, mode, and Boltzmann-weighted average.
- 
+
+
+\subsection{Formulation of the split unfolded reference energy}
+Our split unfolded energy function is composed of two scoring terms in Rosetta, a one body and a two body component. During scoring, each of these terms is calculated separately for each residue in the protein, and then weighted and summed similar to each other Rosetta energy term. The formulation of the split unfolded reference energy for a given position is thus:
+
+\begin{equation}
+E_{\text{unfolded}} =  W_{one-body} E_{one-body} +  W_{two-body} E_{two-body}
+\end{equation}
+
+\subsection{Calculation of the two body energy term}
+The two body component of the split unfolded energy consists of a sum of the energies of each constitutent atom. These atomic energies are calculated from instances of each atom type in the set used appearing in the top8000 data set of high-quality protein crystal structures, as described above. These values for each Rosetta score term calculated on a per-atom basis are stored in a lookup table, and per-residue two body unfolded energies are built dynamically as needed during runtime from these atom energy lookups. The two body split unfolded energy for a given residue is calculated as follows:
+
+<some equation>
+\subsection{Calculation of the one body energy term}
+And here's how this one works too. It's a simple lookup of a predetermined value. The simple equation goes:
+
+<some equation>
+\subsection{Determining the single-body reference energy component}
+Acetylated and N-methylamidated protein residues, or acetylated and N-dimethylamidated peptide residues, were constructed in Rosetta. The backbone angles of these residues were scanned to find the lowest total intra-residue energy. With the canonical scoring function, the intra-residue terms were , and , while with mm\_std, the intra-residue terms were . For each set of backbone dihedrals, the backbone was minimized, and side chain was repacked. The reference energy's one body component was taken as the smallest energy thus determined.
+
+METHOD FIGURE
+
+\subsection{Generating atom type distributions for NCAA's} 
 Finally, a small number of required atom types were only found in non-canonical amino acids and thus were un-represented in the Top8000 data set. To apply the same procedure to these cases, we mutated chemically similar amino acids, removed any clashes generated from the structure, and then scored. (For example, to obtain parameters for the aliphatic fluorine atom type, we mutated alanines to beta-fluoro-alanine and leucine to various fluoroleucines.)
+
+
+TABLE of all the mm atom types covered, noting which ones are natural and which ones are mutated?
+
+\subsection{How sequence recovery testing works}
+What that dataset has in it, how the test actually runs.
+
+\subsection{Gridsearch how-done}
+We did a gridsearch, this isn't complicated. Explain it here.
+
+
+\subsection{optE description}
+What optE did, how it did it. Complex, somewhat.
+
+\subsection{optE optimization setup}
+What exactly we did with optE to produce the results we did. May want to only have this for the revamped optE.
+
+\subsection{new-optE description}
+What it now does.

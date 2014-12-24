@@ -7,3 +7,24 @@ PLOT: TWO BODY TERMS
 
 PLOT: ONE SCORETERM HISTOGRAM
 
+
+\subsection{Grid search weight fitting}
+First we did a grid search with a whole bunch of atom types and statistical methods, and found that unique and median were the best.
+
+TABLE Performance by atom type set/statistical method? Probably just by atom type set. And how to represent this?
+
+Then, we went and did more grid searching on just the best candidate atom type sets for CAA and NCAA. We got some landscape:
+
+FIGURE heatmap from grid search, talaris and mm std both I think.
+
+
+\subsection{optE Sucks}
+We then used optE and it sucked.
+
+\subsection{new-optE performance}
+Then we made it better. 
+
+This (hopefully) gave us better numbers that were <some amount> different from the gridsearch, thus validating the months it took to do.
+
+
+FIGURE Sequence recovery by amino acid type resulting from this, similar to what Doug did for the Rosettacon poster.
