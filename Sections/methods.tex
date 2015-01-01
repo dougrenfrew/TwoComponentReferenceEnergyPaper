@@ -7,7 +7,7 @@ The two body component of the split unfolded reference energy consists of energy
 TABLE illustrating these atom types. I'm thinking a table at least containing GLY CA, ALA CA, ALA CB, and ALA C as rows. Elemental would group them all as C, MM/Rosetta would distinguish the CA+CB from C, Unique would distinguish all 4.
 
 \paragraph{}
-We considered different methods for obtaining an appropriate measure of centrality for the different distributions produced by these scoring terms, including the mean, median, mode, and Boltzmann-weighted average. Early testing showed that the distribution median was more robust across different atom types and performed better in sequence recovery trials, so we decided to use the median values in all further testing.
+We considered different methods for obtaining an appropriate measure of centrality for the different distributions produced by these scoring terms, including the mean, median, mode, and Boltzmann-weighted average. Early testing showed that the distribution median was more robust across different atom types and performed better in sequence recovery trials, and we decided to use the median values in all further testing.
 
 
 \subsection{Generating atom type distributions for NCAA's} 
@@ -69,22 +69,21 @@ Where $W_{two-body}$ is the weight value for the two body term, $n$ is the total
 
 \subsection{Determining the single-body reference energy component}
 \paragraph{}
-For the one body component of the reference energy, representing the inherent energy of a given sidechain in an unfolded chain, we used a Rosetta simulation of acetylated and N-methylamidated versions of each monomer residue type to simulate the presence of neighboring residues in a chain. The backbone phi and psi angles of these residues were iterated in <?degree?> bins, with each bin angle minimized using Rosetta's <dfpmin?> minimizer to find local intra-residue energy minima. A low energy sidechain conformation was found for each backbone bin using rotamer repacking followed by minimization identical to that of the backbone. The lowest energy conformation among those sampled was taken as the ideal minimal monomeric conformation for each residue type, and their intra-residue energies recorded as the baseline energy introduced into a protein structure by designing that residue. This process was carried out using the intra-residue scoring terms for both the $talaris2013$ score function and the $mm\_std$ score function. For $talaris2013$, the intra-residue terms were <score terms>, while for $mm\_std$, the intra-residue terms were <other score terms>.
+For the one body component of the reference energy, representing the inherent energy of a given sidechain in an unfolded chain, we used a Rosetta simulation of acetylated and N-methylamidated versions of each monomer residue type to simulate the presence of neighboring residues in a chain. The backbone phi and psi angles of these residues were iterated in <?degree?> bins, with each bin angle minimized using Rosetta's <dfpmin?> minimizer to find local intra-residue energy minima. A low energy sidechain conformation was found for each backbone bin using rotamer repacking followed by minimization identical to that of the backbone. The lowest energy conformation among those sampled was taken as the ideal minimal monomeric conformation for each residue type, and their intra-residue energies recorded as the baseline energy introduced into a protein structure by designing that residue. This process was carried out using the intra-residue scoring terms for both the $talaris2013$ score function and the $mm\_std$ score function. For $talaris2013$, the intra-residue terms are fa\_intra\_rep, pro\_close, fa\_dun, rama, omega, and p\_aa\_pp, while for $mm\_std$, the intra-residue terms are mm\_lj\_intra\_rep, mm\_lj\_intra\_atr, mm\_twist, and pro\_close.
 
 \paragraph{}
-During runtime, the one body reference energy of a protein is determined by summing the values thus recorded for each residue type in it's sequence, which is then weighted and summed with the other score terms to produce the total energy of the protein.
+During runtime, the one body reference energy of a protein is determined by summing the values thus recorded for each residue type in it's sequence, which is then weighted and summed with the other score terms to produce the total energy of the protein. The formulation of the one body term for a given protein is described below.
 
-METHOD FIGURE?
+\begin{equation}
+E_{\text{1body}} = W_{1body} \sum_{i}^{n_{\text{res}}} \sum_{k}^{j_{\text{scoreterms}}} W_{k} E_{restype_{i},k}
+\end{equation}
+
+Where $W_{1body}$ is the one body energy term weight, $n$ is the total number of residues, $j$ is the set of scoreterms used to compute the one body energy term for the current scorefunction(either $talaris2013$ or $mm\_std$), $W_{k}$ is the weight applied to score term k under the energy function in use, and $E_{restype_{i},k}$ is the one body minimal energy value for the score term $k$ for the residue type of residue $i$ in the protein.
 
 
 \subsection{How sequence recovery testing works}
 \paragraph{}
-To test the utility of our split unfolded reference energy for protein design, we used the Rosetta native sequence recovery benchmark protocol[ref?], which consists of a collection of <number> high-quality protein structures which are fully redesigned by Rosetta using a given scoring function to test its ability to recapitulate the native amino acid at each position as well as its ability to recapitulate the native amino acid frequencies, both of which indicate it's ability to design ``natural-like'' protein sequences for a given structure. While no benchmark set exists for the design of non-canonical residue types, performance on the canonical residue types should be indicative of performance on NCAA types as well, as these types are treated identically during runtime. <some more description of the protocol?>
-
-To run the sequence recovery benchmark, the following command line was used:
-
-<command line>
-
+To test the utility of our split unfolded reference energy for protein design, we used the Rosetta native sequence recovery benchmark protocol[ref?], which consists of a collection of <number> high-quality protein structures which are fully redesigned by Rosetta using a given scoring function to test its ability to recapitulate the native amino acid at each position as well as its ability to recapitulate the native amino acid frequencies, both of which indicate it's ability to design ``natural-like'' protein sequences for a given structure. While no benchmark set exists for the design of non-canonical residue types, performance on the canonical residue types should be indicative of performance on NCAA types as well, as these types are treated identically during runtime. <some more description of the protocol? it basically just calls a repack task on the pose, with all residues allowed, presumably. What's the default number of positions changed/iterations for one of those?>
 
 
 \subsection{Gridsearch how-done}
@@ -92,14 +91,4 @@ To run the sequence recovery benchmark, the following command line was used:
 In addition to the generation of the energy terms for the one and two body split unfolded reference energy, as described above, there are also two weight parameters, $W_{2body}$ and $W_{1body}$, which can affect sequence recovery performance. Thus, optimization of these parameters is necessary in order to maximize design performance. 
 
 \paragraph{}
-As an initial step in optimizing these parameters, we used a simple grid-based search strategy, scanning combinations of $W_{2body}$ and $W_{1body}$ across the range of 1.0 to -1.0 for each weight(the typical range for Rosetta score term weights), in increments 0.05.
-
-
-\subsection{optE description}
-What optE did, how it did it. Complex, somewhat.
-
-\subsection{optE optimization setup}
-What exactly we did with optE to produce the results we did. May want to only have this for the revamped optE.
-
-\subsection{new-optE description}
-What it now does.
+To optimize these parameters, we used a simple grid-based search strategy, scanning combinations of $W_{2body}$ and $W_{1body}$ across the range of 1.0 to -1.0 for each weight(the typical range for Rosetta score term weights) in increments 0.05, for both $talaris2013$ and $mm\_std$, for several different two body atom type sets in each case. The results of this scan can be found in figure <fig>. A longer ranged scan was also performed for $talaris2013$, testing values between 5.0 and -5.0 in increments of 0.1, but the sequence recovery landscape beyond the 1.0 to -1.0 range is near featureless, and thus was not explored further.
