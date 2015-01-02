@@ -9,21 +9,44 @@ PLOT: ONE SCORETERM HISTOGRAM
 
 \subsection{One and Two Body Unfolded Energy Terms}
 \paragraph{}
-We developed and implemented in Rosetta two energy terms, $unfolded$ and $split\_unfolded\_two\_body$, which represent the one body and two body portions of the expected energy of a given residue type. These terms are extensible and can be applied to novel residue types, including peptidomemetics containing exotic backbone elements, with a minimum of additional development, and we present them here with all 20 canonical amino acids and <some number> of NCAA residue types, listed in table <number>. The implementation of additional NCAA types that use only atom types listed in table <number> for use with these energy terms is intended to be a simple process, requiring only the generation of a one body low energy score set. While the details of doing this differ slightly when additional backbone degrees of freedom are added, for residue types with rotation around only psi and psi, an application is provided to generate these one body energies, found under $src/apps/public/rileyse/FindMinEnergyOfDipeptideAA.cc$ in the Rosetta code repository. Usage details can be found in the methods section.
+We developed and implemented in Rosetta two energy terms, $unfolded$ and $split\_unfolded\_two\_body$, which represent the one body and two body portions of the expected energy of a given residue type.
+These terms are extensible and can be applied to novel residue types, including peptidomemetics containing exotic backbone elements, with a minimum of additional development, and we present them here with all 20 canonical amino acids and <some number> of NCAA residue types, listed in table <number>.
+The implementation of additional NCAA types that use only atom types listed in table \ref{tab:atypes_all} for use with these energy terms is intended to be a simple process, requiring only the generation of a one body low energy score set.
+While the details of doing this differ slightly when additional backbone degrees of freedom are added, for residue types with rotation around only psi and psi, an application is provided to generate these one body energies, found under $src/apps/public/rileyse/FindMinEnergyOfDipeptideAA.cc$ in the Rosetta code repository.
+Usage details can be found in the methods section.
 
 \paragraph{}
-The $unfolded$ term we have implemented, while sharing much of it's code with the $unfolded$ score term implemented in 2012 Renfrew at al[ref], is distinct in function and generation from the older term. The newer term consists of a sum of the intra-residue energy terms used in Rosetta for the residue in it's minimum energy dipeptide form(i.e. possessing capping acetyl and N-methyl groups to mimic adjacent backbone atoms), as a measure of the minimum energetic contribution of the residue to a folded protein structure. The older term is an average energy of the residue when inserted as the central residue in a large number of five residue fragments from structured proteins, and includes two body energy terms as well, and is thus not directly comparable to this new $unfolded$ term.
+The $unfolded$ term we have implemented, while sharing much of it's code with the $unfolded$ score term implemented in 2012 Renfrew at al[ref], is distinct in function and generation from the older term.
+The newer term consists of a sum of the intra-residue energy terms used in Rosetta for the residue in it's minimum energy dipeptide form(i.e. possessing capping acetyl and N-methyl groups to mimic adjacent backbone atoms), as a measure of the minimum energetic contribution of the residue to a folded protein structure.
+The older term is an average energy of the residue when inserted as the central residue in a large number of five residue fragments from structured proteins, and includes two body energy terms as well, and is thus not directly comparable to this new $unfolded$ term.
 
 \paragraph{}
-The two body term $split\_unfolded\_two\_body$, meanwhile, is an average intra-residue energy for a given residue type taken from many instances in folded protein structures from the top8000 high quality protein structure benchmark[ref]. This term represents the expected two body energy of a residue in a folded protein context, and serves as a benchmark during design to tell how a designed instance of a residue type compares to the expected case, which is assumed to be a well satisfied instance of that residue type. 
+The two body term $split\_unfolded\_two\_body$, meanwhile, is an average intra-residue energy for a given residue type taken from many instances in folded protein structures from the top8000 high quality protein structure benchmark[ref].
+This term represents the expected two body energy of a residue in a folded protein context, and serves as a benchmark during design to tell how a designed instance of a residue type compares to the expected case, which is assumed to be a well satisfied instance of that residue type. 
 
 \subsection{Modifications to the mm\_std score function}
 \paragraph{}
-In addition to our development of the split unfolded energy terms, we also made several revisions and updates to the $mm\_std$ score function, previously described by Renfrew et al in [ref], and which is currently the standard scoring function for non-canonical design tasks in Rosetta. Since this score function was introduced, several significant updates to canonical protein scoring function were published with the introduction of the $talaris2013$ score function, which replaced $score12\_full$ as the standard Rosetta scoring function[ref-talaris2013]. Some of these updates could be easily ported over to $mm\_std$, specifically a proper electrostatics term, $fa\_elec$, which was previously lacking in $mm\_std$, and an updated disulfide bond term, $dslf\_fa13$. To adapt these terms, we adjusted the weights used in the $talaris2013$ score function relative to the difference in specific weights between the two score function. In the case of $fa\_elec$, we weighted it relative to the average of the hydrogen bonding score terms in $mm\_std$ versus those in $talaris2013$, which were slightly higher in $mm\_std$, resulting in a weight of 0.73 versus 0.70 for the $fa\_elec$ term in $talaris2013$. In the case of the $dslf\_fa13$ term, the old disulfide bond score terms in $mm\_std$ were identical to those from $score12\_full$, and so the $talaris2013$ weight of 1.0 was used as-is. The resulting score function weights file can be found in the Rosetta code repository as $/database/scoring/weights/mm\_std\_fa\_elec\_dslf\_fa13.wts$. To validate this improvement, we used the Rosetta sequence recovery benchmark, which showed much improved recovery of polar and charged residue types in the modified score function versus the original $mm\_std$. The results of this test can be seen in table <number>. Based on this result, we used this modified $mm\_std$ score function as the base for using our split unfolded reference terms with $mm\_std$ in all further tests.
+In addition to our development of the split unfolded energy terms, we also made several revisions and updates to the $mm\_std$ score function, previously described by Renfrew et al in [ref], and which is currently the standard scoring function for non-canonical design tasks in Rosetta.
+Since this score function was introduced, several significant updates to canonical protein scoring function were published with the introduction of the $talaris2013$ score function, which replaced $score12\_full$ as the standard Rosetta scoring function[ref-talaris2013].
+Some of these updates could be easily ported over to $mm\_std$, specifically a proper electrostatics term, $fa\_elec$, which was previously lacking in $mm\_std$, and an updated disulfide bond term, $dslf\_fa13$.
+To adapt these terms, we adjusted the weights used in the $talaris2013$ score function relative to the difference in specific weights between the two score function.
+In the case of $fa\_elec$, we weighted it relative to the average of the hydrogen bonding score terms in $mm\_std$ versus those in $talaris2013$, which were slightly higher in $mm\_std$, resulting in a weight of 0.73 versus 0.70 for the $fa\_elec$ term in $talaris2013$.
+In the case of the $dslf\_fa13$ term, the old disulfide bond score terms in $mm\_std$ were identical to those from $score12\_full$, and so the $talaris2013$ weight of 1.0 was used as-is.
+The resulting score function weights file can be found in the Rosetta code repository as $/database/scoring/weights/mm\_std\_fa\_elec\_dslf\_fa13.wts$.
+To validate this improvement, we used the Rosetta sequence recovery benchmark, which showed much improved recovery of polar and charged residue types in the modified score function versus the original $mm\_std$.
+The results of this test can be seen in table \ref{tab:performance}.
+Based on this result, we used this modified $mm\_std$ score function as the base for using our split unfolded reference terms with $mm\_std$ in all further tests.
 
 
 \subsection{Optimization of the one and two body term weights}
-As the Rosetta score function is a composite of a diverse set of physical and statistical energy terms, adjusting the relative energetic contribution of each term via a set of score term weights is essential to achieve high performance on sequence recovery and other benchmark tasks[ref-reference energy paper?]. As such, we fit weights $W_{2body}$ and $W_{1body}$ for $unfolded$ and $split\_unfolded\_two\_body$ respectively using the Rosetta sequence recovery benchmark test[ref] and a simple grid-based search technique. We scanned combinations of $W_{2body}$ and $W_{1body}$ across the range of 1.0 to -1.0 for each weight(the typical range for Rosetta score term weights) in increments 0.05, for both $talaris2013$ and $mm\_std$ score functions, using the $elemental$, $mm$, and $unique$ two body atom type sets for each. The results of this scan can be found in figure <fig>. The top performing weight values for each combination of score function and atom type set were collected and can be found in table <number>. <some note on error, possibly from variance analysis test>. A longer ranged scan was also performed for $talaris2013$ with the $unique$ weight set, testing values between 5.0 and -5.0 in increments of 0.1, but the sequence recovery landscape beyond the 1.0 to -1.0 range is near featureless, and thus was not explored further. NEED TO DEFINE THE WEIGHT SETS SOMEWHERE.
+As the Rosetta score function is a composite of a diverse set of physical and statistical energy terms, adjusting the relative energetic contribution of each term via a set of score term weights is essential to achieve high performance on sequence recovery and other benchmark tasks[ref-reference energy paper?].
+As such, we fit weights $W_{2body}$ and $W_{1body}$ for $unfolded$ and $split\_unfolded\_two\_body$ respectively using the Rosetta sequence recovery benchmark test[ref] and a simple grid-based search technique.
+We scanned combinations of $W_{2body}$ and $W_{1body}$ across the range of 1.0 to -1.0 for each weight(the typical range for Rosetta score term weights) in increments 0.05, for both $talaris2013$ and $mm\_std$ score functions, using the $elemental$, $mm$, and $unique$ two body atom type sets for each.
+The results of this scan can be found in figure <fig>.
+The top performing weight values for each combination of score function and atom type set were collected and can be found in table \ref{tab:performance}.
+%<some note on error, possibly from variance analysis test>.
+A longer ranged scan was also performed for $talaris2013$ with the $unique$ atom type set, testing values between 5.0 and -5.0 in increments of 0.1, but the sequence recovery landscape beyond the 1.0 to -1.0 range is near featureless, and thus was not explored further.
+%NEED TO DEFINE THE SCORE FUNCTION CONTENTS SOMEWHERE.
 
 FIGURE heatmap from grid search, talaris and mm std both I think.
 
@@ -36,3 +59,26 @@ FIGURE heatmap from grid search, talaris and mm std both I think.
 FIGURE Sequence recovery by amino acid type for the best weights, similar to what Doug did for the Rosettacon poster.
 
 TABLE Showing sequence recovery performance by class for mm\_std, talaris2013, modified mm\_std, talaris+split unfolded's best result for each of the elemental, mm, and unique atom type sets, and mm\_std's best result for mm and unique atom types(probably no time for elemental now). Would be nice to have some error numbers on these...
+
+%Table to illustrate the differences between the atom type sets. 
+\begin{table}[!htbp]
+
+\fontsize{9pt}{9pt}
+\selectfont
+
+\begin{tabular}{c|lllllllll}
+Score Function & Atom Type Set & Total \% Recovery & Hydrophobic \% & Polar \% & Positive \% & Negative \% & One Body Weight & Two Body Weight\\
+\hline
+talaris2013(base) & N/A & 0.3935 & 0.5240 & 0.2410 & 0.1635 & 0.3155 & N/A & N/A\\
+mm\_std(original) & N/A & 0.2484 & 0.4447 & 0.0180 & 0.0687 & 0.0 & N/A & N/A\\
+mm\_std(modified) & N/A & 0.2720 & 0.4374 & 0.0539 & 0.1185 & 0.0933 & N/A & N/A\\
+%more to come...
+\end{tabular}
+
+\fontsize{10pt}{11pt}
+\selectfont
+\caption{Performance on the Rosetta sequence recovery benchmark for the baseline talaris2013, mm\_std, and mm\_std\_fa\_elec\_dslf\_fa13 score functions, plus variants using the split unfolded energy terms and the stated two body atom type set. 
+Variant results shown are using the best discovered one and two body weights from the corresponding grid search.}
+\label{tab:performance}
+
+\end{table}
