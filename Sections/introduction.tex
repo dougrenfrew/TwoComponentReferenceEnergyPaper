@@ -28,9 +28,10 @@ As a result, the probability of sampling the low-energy rotamers of these sparse
 \paragraph{}
 Thus, it is a common practice to incorporate reference energies in order to maximize a design protocol's recovery of native protein sequences.
 These reference energies effectively re-bias the underlying amino acid distribution such that undersampled residues are considered more favorable, thereby increasing the number of rotamer states that are energetically acceptable for those residues and allowing them to be designed at a frequency comparable to their natural rate. 
+In the Rosetta canonical amino acid scoring function, this reference energy term is called $ref$, and consists of a series of 20 weights, one for each canonical amino acid, which are learned statistical potentials that maximize sequence recovery on a set of protein crystal structures. Without this term, Rosetta suffers from reduced sequence recovery in native proteins, as well as highly imbalanced design frequencies[ref].
 
 \paragraph{}
-While this statistical weighting works well for canonical amino acid types for which an ideal native residue frequency exists, non-canonical amino acids(NCAAs) and peptidomemetics cannot benefit from a statistically derived reference energy or a sequence recovery benchmark due to a lack of experimental structural data.
+While this statistical weighting works well for canonical amino acid types for which an ideal native residue frequency exists, non-canonical amino acids(NCAAs) and peptidomemetics cannot benefit from a statistically derived reference energy or a sequence recovery benchmark due to a lack of experimental structural data. With no evolutionarily selected structure-sequence parings to use as a benchmark for what a well-folded and functional sequence looks like, another form of reference energy for NCAA's is required.
 
 \subsection{Existing unfolded energy term}
 

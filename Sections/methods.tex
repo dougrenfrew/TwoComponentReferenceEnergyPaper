@@ -1,5 +1,9 @@
 \section{Methods}
 
+\subsection{Contents of the talaris2013 and mm\_std scoring functions}
+%What do these have? Explain.
+
+
 \subsection{Generating per-atom-type reference energies}
 \paragraph{}
 The two body component of the split unfolded reference energy consists of energy values for a set of atoms which are summed to determine the reference energy for any given amino acid or peptidomemetic.
@@ -9,7 +13,7 @@ These score terms were grouped by atom type and statistics were computed on the 
 We tested several different sets of atom types to determine which description of the atoms of an amino acid residue would best describe the inter-residue interactions expected for that residue.
 As two limit cases, we examined elemental types, wherein all atoms of the same element are alike, as well as unique atom types, where every atom from every residue type was assigned a different group.
 Intended to balance generalizability and goodness of fit, we also included the modified CHARMM atom type set used by Rosetta[ref-CHARMM][ref-atom types in rosetta?], as well as molecular mechanics(MM) atom types[ref?].
-(what is the proper name for this atom type set?)
+
 
 %Table to illustrate the differences between the atom type sets. 
 \begin{table}[!htbp]
@@ -154,7 +158,10 @@ MM & OE & no\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{Figures/test.png}
-  \caption{Example two body energy distribution.}
+  \includegraphics[width=\linewidth]{Figures/test.png}
+  \includegraphics[width=\linewidth]{Figures/test.png}
+  \includegraphics[width=\linewidth]{Figures/test.png}
+  \caption{Example histogram of two body energy for atom <whatever the atom is>. The median value shown by the green line is the representitive value used to construct the amino acid two body energies. Other statistical measures shown were investigated, but not used due to reduced performance.}
   \label{fig:tbaedist}
 \end{figure}
 
@@ -163,6 +170,7 @@ MM & OE & no\\
 \paragraph{}
 Our split unfolded energy function is composed of two scoring terms in Rosetta, a one body and a two body component.
 During scoring, each of these terms is calculated separately for each residue in the protein, and then weighted and summed similar to each other Rosetta energy term.
+This combined energy term serves to replace the standard Rosetta reference energy function, known as $ref$.
 The formulation of the split unfolded reference energy for a protein is thus:
 
 \begin{equation}
