@@ -2,33 +2,33 @@
 \subsection{Computational design of proteins and peptidomemetics}
 \paragraph{}
 The computational design of macromolecules like proteins has permitted dramatic advances in chemical and synthetic biology.
-Protein design has resulted in advances in basic knowledge, such as the creation of proteins with novel folds[ref], as well as industrial and medical applications, such as the creation and optimization of enzymes that can conduct reactions that are not performed by natural enzymes[ref], as well as <some example of protein design for medicine or perhaps synthetic biology>[ref].
+Protein design has resulted in advances in basic knowledge, such as the creation of proteins with novel folds\cite{kuhlman_design_2003}, as well as industrial and medical applications, such as the creation and optimization of enzymes that can conduct reactions that are not performed by natural enzymes\cite{jiang_denovo_2008,rothlisberger_kemp_2008}.
 
 \paragraph{}
-In recent years, the potential to extend existing peptide design methods to chemically diverse groups of heteropolymer molecules which display peptide-like properties such as secondary and tertiary structure[ref?].
-Examples include peptoids[ref], oligo-oxopiperazines(spelling?)[ref], beta-peptides[ref], among others.
-These molecules are an attractive alternative to peptides for drug design due to their high bioavailability, resistance to proteolysis, and ability to bind competitively at protein binding sites with high affinity by mimicking the conformation of the natural binding partner[ref].
-Similarly, incorporating non-natural side chains in peptides may yield increases in binding affinity and specificity as well as protein stability relative to proteins containing only the canonical twenty amino acids[ref].
+In recent years, the potential to extend existing peptide design methods to chemically diverse groups of heteropolymer molecules which display peptide-like properties such as secondary and tertiary structure.
+Examples include peptoids\cite{renfrew_incorporation_2012}, oligo-oxopiperazines\cite{lao_rational_2014}, and beta-peptides\cite{molski_remodeling_2012}, among others.
+These molecules are an attractive alternative to peptides for drug design due to their high bioavailability, resistance to proteolysis, and ability to bind competitively at protein binding sites with high affinity by mimicking the conformation of the natural binding partner\cite{lao_rational_2014}.
+Similarly, incorporating non-natural side chains in peptides may yield increases in binding affinity and specificity as well as protein stability relative to proteins containing only the canonical twenty amino acids\cite{horng_values_2003}.
 
 \paragraph{}
-While success has been had in designing canonical peptides for a variety of applications using the Rosetta protein modeling and design suite[ref-rosetta][ref-example][ref-example], development to allow the use of noncanonical amino acids and peptidomemetics(collectively referred to here as NCAA's) is ongoing.
-While it is now possible to design with a variety of NCAA's in Rosetta[ref-previous NCAA paper][ref-any other NCAA implementation work], NCAA design still faces several issues in practice which make it difficult to apply to many problems.
+While success has been had in designing canonical peptides for a variety of applications using the Rosetta protein modeling and design suite\cite{leaver-fay_chapter_2011,jiang_denovo_2008,rothlisberger_kemp_2008}, development to allow the use of noncanonical amino acids and peptidomemetics(collectively referred to here as NCAA's) is ongoing.
+While it is now possible to design with a variety of NCAA's in Rosetta\cite{renfrew_incorporation_2012,drew_adding_2013}, NCAA design still faces several issues in practice which make it difficult to apply to many problems.
 Chief among these is the difficulty in correcting for the statistical and energetic biases towards certain residue types that result from Rosetta's sampling methods and energy model.
 
 \subsection{Rosetta design and the need to adjust for statistical bias}
 \paragraph{}
 Unlike continuous transformations to a protein structure, such as altering internal coordinates, changes in sequence are discrete- Each position in the protein can occupy only one of a fixed number of discrete states, those being amino acid types.
-As it is also known that the sidechain of a given amino acid almost always occupies one of a limited number of discrete conformations, known as rotameric isomers, or rotamers[ref-rotamers], one major strategy for design is to consider each amino acid-rotamer pair as a unique state that a given residue position can occupy, and design by selecting low energy states from among those sampled at a given position[ref-rosetta design].
+As it is also known that the sidechain of a given amino acid almost always occupies one of a limited number of discrete conformations, known as rotameric isomers, or rotamers, one major strategy for design is to consider each amino acid-rotamer pair as a unique state that a given residue position can occupy, and design by selecting low energy states from among those sampled at a given position\cite{leaver-fay_chapter_2011}.
 This process is analogous to rotameric sidechain repacking, extended to allow sequence design.
 
 \paragraph{}
 One issue with this state-based approach is that residues with more chi angles are intrinsically disfavored: while highly represented among all states, very few rotamers for a many-chi residue will be energetically favorable.
-As a result, the probability of sampling the low-energy rotamers of these sparse-landscape residues is decreased relative to other residues with many acceptable rotamers[ref?].
+As a result, the probability of sampling the low-energy rotamers of these sparse-landscape residues is decreased relative to other residues with many acceptable rotamers\cite{leaver-fay_chapter_2013,rohl_protein_2004}.
 
 \paragraph{}
 Thus, it is a common practice to incorporate reference energies in order to maximize a design protocol's recovery of native protein sequences.
 These reference energies effectively re-bias the underlying amino acid distribution such that undersampled residues are considered more favorable, thereby increasing the number of rotamer states that are energetically acceptable for those residues and allowing them to be designed at a frequency comparable to their natural rate. 
-In the Rosetta canonical amino acid scoring function, this reference energy term is called $ref$, and consists of a series of 20 weights, one for each canonical amino acid, which are learned statistical potentials that maximize sequence recovery on a set of protein crystal structures. Without this term, Rosetta suffers from reduced sequence recovery in native proteins, as well as highly imbalanced design frequencies[ref].
+In the Rosetta canonical amino acid scoring function, this reference energy term is called $ref$, and consists of a series of 20 weights, one for each canonical amino acid, which are learned statistical potentials that maximize sequence recovery on a set of protein crystal structures. Without this term, Rosetta suffers from reduced sequence recovery in native proteins, as well as highly imbalanced design frequencies\cite{rohl_protein_2004}.
 
 \paragraph{}
 While this statistical weighting works well for canonical amino acid types for which an ideal native residue frequency exists, non-canonical amino acids(NCAAs) and peptidomemetics cannot benefit from a statistically derived reference energy or a sequence recovery benchmark due to a lack of experimental structural data. With no evolutionarily selected structure-sequence parings to use as a benchmark for what a well-folded and functional sequence looks like, another form of reference energy for NCAA's is required.
@@ -36,13 +36,13 @@ While this statistical weighting works well for canonical amino acid types for w
 \subsection{The existing noncanonical reference energy in Rosetta}
 
 \paragraph{}
-Thus, a new strategy was employed to provide NCAA weights as part of their initial implementation, the $unfolded$ energy term in Rosetta[ref].
-A reference energy of the unfolded state was derived via computational mutagenesis in 5-mer fragments for each canonical and noncanonical amino acid in Rosetta, which serves as to adjust noncanonical design frequencies based on their expected energetic cost to include in a folded protein structure[ref].
+Thus, a new strategy was employed to provide NCAA weights as part of their initial implementation, the $unfolded$ energy term in Rosetta\cite{renfrew_incorporation_2012}.
+A reference energy of the unfolded state was derived via computational mutagenesis in 5-mer fragments for each canonical and noncanonical amino acid in Rosetta, which serves as to adjust noncanonical design frequencies based on their expected energetic cost to include in a folded protein structure.
 This energy served a similar purpose to the statistical reference energy by representing the baseline solvent and neighboring residue interactions, achieving balance in designing NCAA residues.
 
 \paragraph{}
-While the unfolded state energy permits the design and synthesis of NCAA-containing peptides and peptidomimetics(BROOKE/KEVIN REF, PEPTOIDS REF?), it remains wanting in several ways.
-It's reliance on structure fragments from natural peptides makes it unsuitable for use with peptidomemetics that have a deviant backbone, such as beta peptides(additional backbone methylene) or oligo-oxopiperazines(cyclic multimeric backbone).
+While the unfolded state energy permits the design and synthesis of NCAA-containing peptides and peptidomimetics\cite{lao_rational_2014,drew_adding_2013}, it remains wanting in several ways.
+Its reliance on structure fragments from natural peptides makes it unsuitable for use with peptidomemetics that have a deviant backbone, such as beta peptides(additional backbone methylene) or oligo-oxopiperazines(cyclic multimeric backbone).
 Additionally, the fragment-mutate-score process invariably resulted in residues with reference energies that contained a relatively small attractive term, simply because few fragments made favorable contacts with the mutated residue.
 This lack of expected attractive interactions meant that each additional atom in a residue that made even tenuous interactions with other residues would increase the residue's score in a folded context.
 Thus, large residues like arginine and tryptophan are favored much more than smaller residues, and will tend to be designed at a given site over more appropriate residues barring prohibitive repulsive interactions.
@@ -52,7 +52,9 @@ This results in, for example, protein surfaces covered in tryptophan residues, w
 \paragraph{}
 Thus, a more flexible and physically realistic reference energy is desirable to improve and extend the NCAA design capabilities of Rosetta.
 We present here a new reference energy which addresses these issues.
-By calculating the two body portions of the reference energy of the residue in a folded peptidic context, we have resolved the bias towards large residues, and by allowing the method to be applied to arbitrary peptides and peptidomemetics by dynamically constructing residue reference energies from constituent atomic energies in response to the residue types in use, the method can be extended to theoretically arbitrary molecules in Rosetta.
+We have developed a two component model of the unfolded state that separates treats the one and two body energies of a residue separately.
+By calculating the two body portions of the reference energy of the residue in a folded peptidic context, we have resolved the bias towards large residues, while the monomeric one body energies represent the lowest achievable energy for each residue, producing a more accurate representation of the implicit energy of a single residue.
+In addition, the method can be applied to arbitrary peptides and peptidomemetics by dynamically constructing residue reference energies from constituent atomic energies in response to the residue types in use, which allows the method to be extended to theoretically arbitrary molecules in Rosetta.
 Here, we show that this method of generating a physical reference energy has the potential to replace the existing unfolded reference energy term for noncanonicals, as well as replacing or supplementing the statistical reference energy for canonical design.
-%need some more words here on what exactly we have in the context of the previous introduction
+
 
