@@ -2,23 +2,29 @@
 
 \paragraph{}
 Here, we have presented our two component reference energy for Rosetta design and it's initial applications for canonical protein design.
-When used with the $talaris2013$ scoring function, the two component reference energy demonstrates performance comparable to the previous statistical reference term $ref$, despite a much less sophisticated optimization process than that of $ref$\cite{leaver-fay_chapter_2013}.
-In addition to this promising early sequence recovery result, our two component reference energy is also compatable with non canonical amino acids and the $mm\_std$ noncanonical scoring function, though additional investigation needs to be performed to validate it's effectiveness with that scoring function.
-This work is ongoing, and the performance demonstrated on the problem of canonical protein design using the $talaris2013$ score function suggests that our two component reference energy will be able to improve on the performance of $mm\_std$ on noncanonicals.
+When used with the \textit{talaris2013} scoring function, the two component reference energy demonstrates performance comparable to the previous statistical reference term \textit{ref}, despite the lack of statistical optimization such as used to generate \textit{ref}\cite{leaver-fay_chapter_2013}.
+In addition to this promising early sequence recovery result, our two component reference energy is also compatable with non canonical amino acids and the \textit{mm\_std} noncanonical scoring function, though additional investigation needs to be performed to validate it's effectiveness with that scoring function.
+This work is ongoing, and the performance demonstrated on the problem of canonical protein design using the \textit{talaris2013} score function suggests that our two component reference energy will be able to improve on the performance of \textit{mm\_std} on noncanonicals.
 
-\subsection{Implications of the two component reference energy for physically-weighted design}
-For canonical design, our reference energy displays some interesting characteristics.
+\subsection{The two component reference energy as a physical reference energy}
+\paragraph{}
+For canonical design, our reference energy displays several interesting characteristics.
 The statistical reference energy $ref$ applies a direct bonus to the design of non-hydrophobic residues, resulting in a drop in hydrophobic sequence recovery and an increase in recovery for other amino acid classes, as shown in figure \ref{fig:aa_recovery}.
-In contrast, our two component reference energy manages to maintain most of the hydrophobic recovery of the unreferenced $talaris2013$ score function whilest also boosting recovery of other amino acid classes, albeit not by as much, which suggests it explores an orthogonal region of the possible reference weight space to achieve a sequence recovery result that causes minimal decreases in the baseline ability of the $talaris2013$ score function to design hydrophobics, but still increases the design frequency of other classes.
+In contrast, our two component reference energy manages to maintain most of the hydrophobic recovery of the unreferenced \textit{talaris2013} score function whilest also boosting recovery of other amino acid classes, albeit not by as much, which suggests it explores an orthogonal region of the possible reference weight space to achieve a sequence recovery result that causes minimal decrease in the baseline ability of the \textit{talaris2013} score function to design hydrophobics, but still increases the design frequency of other classes.
+
+\paragraph{}
 This behavior likely derives from the basis of the two component reference energy as an ``expected energy'' for a given residue type, and can be seen as imposing an energetic ``cost'' on each residue type that must be met in order to design that residue type at a given position in a protein.
-As these costs are tuned based on the energies of native amino acids, the net energy of a potential residue at a position is competing with a net energy of the native residue, which is tuned to be ``good'' in a majority of cases, explaining the decrease in hydrophobic amino acids being designed over other classes.
+As these costs are tuned based on the energies of native amino acids, the net energy of a potential residue at a position is competing with a net energy of the native residue, which is tuned to be reflective of a majority of cases, explaining the decrease in hydrophobic amino acids being designed over other classes.
 This physical approach to weighting amino acids represents an orthogonal source of well-suited reference weights to the traditional weight values fit via parameter optimization.
-That they arrive at comparably performing values is both interesting and suggests the future potential of this approach when refined further.
+That they arrive at comparably performing values at this early stage is both interesting and suggests the future potential of this approach when refined further.
 
 \subsection{Future directions for two component reference energy development}
+\paragraph{}
 Beyond extending the simple gridsearch procedure used here to finer resolutions or wider coverage, several other avenues to improve sequence recovery performance exist.
 Chief among these is the usage of a parameter optimization algorithm such as covariance matrix adaptation\cite{ostermeier_step-size_1994} to optimize our one and two body weight values, building off of the identified high recovery regions from the grid search process.
-Further, in addition to optimizing only the weights on the one and two body terms, we also plan to use the Rosetta weight optimization protocol OptE\cite{leaver-fay_chapter_2013}, or a variation on it, to re-optimize all the score weights in the $talaris2013$ score function following the addition of the two component reference terms.
-Lastly, we also intend to re-add a variation of the existing $ref$ statistical reference weight per residue type, using local optimization to weight a numerical offset from the physically derived one and two body reference energies to locally optimize the net reference weight values for each amino acid, using the physical reference energies as a guide to localize the high dimensional reference weights to a region of the weight space where they can more easily find superior weight values through limited exploration of the space.
-By taking these steps, we believe we can achieve performance on sequence recovery and other Rosetta benchmarks strongly superior to the existing $ref$ term-
+Further, in addition to optimizing only the weights on the one and two body terms, we also plan to use the Rosetta weight optimization protocol OptE\cite{leaver-fay_chapter_2013}, or a variation on it, to re-optimize all the score weights in the \textit{talaris2013} score function following the addition of the two component reference terms.
+Lastly, we also intend to re-add a variation of the existing \textit{ref} statistical reference weight per residue type, using local optimization to weight a numerical offset from the physically derived one and two body reference energies to locally optimize the net reference weight values for each amino acid, using the physical reference energies as a guide to localize the high dimensional reference weights to a region of the weight space where they can more easily find superior weight values through limited exploration of the space.
+
+\paragraph{}
+By taking these steps, we believe we can achieve performance on sequence recovery and other Rosetta benchmarks strongly superior to the existing \textit{ref} term---
 We see this approach as a comparison between a blind global optimization in a high dimensional space and a local optimization guided by physically derived starting coordinates which we have here validated to be good candidates, and we are confident that the more guided approach to reference weight optimization will lead to discovery of better weight values for protein design.

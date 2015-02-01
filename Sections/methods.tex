@@ -14,22 +14,22 @@ The Rosetta scoring function can be expressed as follows:
 \begin{equation}
 E_{\text{pose}} = \sum_{i}^{n_{\text{res}}} W_{x} E_{x,i} + ... + W_{y} E_{y,i}
 \end{equation}
-Where $n$ is the total number of residues, $W_{x}$ is the weight on energy term $x$ (eg.\ $fa\_rep$, $fa\_solv$, etc.), $E_{x,i}$ is the energy for energy term $x$ for the residue at position $i$. 
+Where \textit{n} is the total number of residues, $W_{x}$ is the weight on energy term \textit{x} (eg.\ \textit{fa\_rep}, \textit{fa\_sol}, etc.), $E_{x,i}$ is the energy for energy term \textit{x} for the residue at position \textit{i}. 
 The individual weights, $W_x$, on each energy term are typically fit using a special protocol called OptE\cite{leaver-fay_chapter_2013}.
 \end{quote}
 
 \paragraph{}
-The most common scoring function in Rosetta is $talaris2013$, which was designed for general purpose protein evaluation using canonical amino acids\cite{leaver-fay_chapter_2013}.
-It consists of the score terms $fa\_atr$, $fa\_rep$, $fa\_sol$, $fa\_elec$, $fa\_intra\_rep$, $pro\_close$, $hbond\_sr\_bb$, $hbond\_lr\_bb$, $hbond\_bb\_sc$, $hbond\_sc$, $dslf\_fa13$, $rama$, $omega$, $fa\_dun$, $p\_aa\_pp$, and $ref$.
+The most common scoring function in Rosetta is \textit{talaris2013}, which was designed for general purpose protein evaluation using canonical amino acids\cite{leaver-fay_chapter_2013}.
+It consists of the score terms \textit{fa\_atr}, \textit{fa\_rep}, \textit{fa\_sol}, \textit{fa\_elec}, \textit{fa\_intra\_rep}, \textit{pro\_close}, \textit{hbond\_sr\_bb}, \textit{hbond\_lr\_bb}, \textit{hbond\_bb\_sc}, \textit{hbond\_sc}, \textit{dslf\_fa13}, \textit{rama}, \textit{omega}, \textit{fa\_dun}, \textit{p\_aa\_pp}, and \textit{ref}.
 Full descriptions of these energy terms can be found in \cite{leaver-fay_chapter_2013}.
 %optionally include descriptions of these terms here.
 
 \paragraph{}
-In addition to $talaris2013$, there also exists a score function developed for design using noncanonical amino acids and peptidomemetics(protein-like molecules), called $mm\_std$\cite{renfrew_incorporation_2012}.
-The energy terms of this score function are $fa\_atr$, $fa\_rep$, $fa\_sol$, $mm\_lj\_intra\_atr$, $mm\_lj\_intra\_rep$, $mm\_twist$, $pro\_close$, $hbond\_sr\_bb$, $hbond\_lr\_bb$, $hbond\_bb\_sc$, $hbond\_sc$, $dslf\_ss\_dst$, $dslf\_cs\_ang$, $dslf\_ss\_dih$, $dslf\_ca\_dih$, and $unfolded$.
-The first difference from $talaris2013$ is the lack of many of the statistical terms, such as $p\_aa\_pp$, the deviation from the phi-psi preferences of the sidechain at each position, which may not be known for a given class of NCAA.
-Other major differences include the addition of several molecular mechanics-based score terms, as well as the replacement of the statistically derived reference energy $ref$ with an explicit energetic model of the unfolded state of each residue, called $unfolded$.
-This $unfolded$ term serves the same role as $ref$ in the $talaris2013$ score function- to provide a baseline weight for each residue type which corrects for the design biases inherent in Rosetta.
+In addition to \textit{talaris2013}, there also exists a score function developed for design using noncanonical amino acids and peptidomemetics(protein-like molecules), called \textit{mm\_std}\cite{renfrew_incorporation_2012}.
+The energy terms of this score function are \textit{fa\_atr}, \textit{fa\_rep}, \textit{fa\_sol}, \textit{mm\_lj\_intra\_atr}, \textit{mm\_lj\_intra\_rep}, \textit{mm\_twist}, \textit{pro\_close}, \textit{hbond\_sr\_bb}, \textit{hbond\_lr\_bb}, \textit{hbond\_bb\_sc}, \textit{hbond\_sc}, \textit{dslf\_ss\_dst}, \textit{dslf\_cs\_ang}, \textit{dslf\_ss\_dih}, \textit{dslf\_ca\_dih}, and \textit{unfolded}.
+The first difference from \textit{talaris2013} is the lack of many of the statistical terms, such as \textit{p\_aa\_pp}, the deviation from the $\phi$-$\psi$ preferences of the sidechain at each position, which may not be known for a given class of NCAA.
+Other major differences include the addition of several molecular mechanics-based score terms, as well as the replacement of the statistically derived reference energy \textit{ref} with an explicit energetic model of the unfolded state of each residue, called \textit{unfolded}.
+This \textit{unfolded} term serves the same role as \textit{ref} in the \textit{talaris2013} score function- to provide a baseline weight for each residue type which corrects for the design biases inherent in Rosetta.
 
 
 \subsection{Generating per-atom-type two-body energy distributions}
@@ -37,7 +37,7 @@ This $unfolded$ term serves the same role as $ref$ in the $talaris2013$ score fu
 The two body portion of our two component reference energy consists of energy values for a set of atoms which are summed to determine the reference energy for any given amino acid or peptidomemetic.
 These energy values are obtained from an ensemble of a large number(above order $10^6$ for most atom types) of instances of that atom type in high resolution X-ray protein structures.
 These protein structures were obtained from the Top8000 benchmark set of high quality structures\cite{lovell_structure_2003}, and was scored with Rosetta using a modified protocol that recorded every inter-atomic energy value.
-The two body score terms recorded were $fa\_atr$, $fa\_rep$, $fa\_sol$, $fa\_elec$, $hbond$, and $dslf\_fa13$.
+The two body score terms recorded were \textit{fa\_atr}, \textit{fa\_rep}, \textit{fa\_sol}, \textit{fa\_elec}, \textit{hbond}, and \textit{dslf\_fa13}.
 These energy values were grouped by atom type, and statistics were computed on the score distributions to provide expected energies for that atom type in a well-folded protein.
 We tested several different sets of atom types to determine which description of the atoms of an amino acid residue would best describe the inter-residue interactions expected for that residue.
 As two limit cases, we examined elemental types, wherein all atoms of the same element are alike, as well as unique atom types, where every atom from every residue type was assigned a different group.
@@ -51,11 +51,11 @@ Intended to balance generalizability and goodness of fit, we also included the m
 \selectfont
 
 \begin{tabular}{c|lllll}
-Residue & Atom Name & Elemental Atom Type & Rosetta Atom Type & MM Atom Type & Unique Atom Type\\
+Residue & Atom Name & Elemental Type & Rosetta Type & MM Type & Unique Type\\
 \hline
-GLY & Alpha Carbon & C & CAbb & CT1 & GLY/2\\
-ALA & Alpha Carbon & C & CAbb & CT1 & ALA/2\\
-ALA & Beta Carbon & C & CH3 & CT3 & ALA/5\\
+GLY & $\alpha$-Carbon & C & CAbb & CT1 & GLY/2\\
+ALA & $\alpha$-Carbon & C & CAbb & CT1 & ALA/2\\
+ALA & $\beta$-Carbon & C & CH3 & CT3 & ALA/5\\
 ALA & Carboxyl Carbon & C & CObb & C & ALA/3\\
 %Perhaps two more that differentiate Rosetta and MM?
 \end{tabular}
@@ -191,11 +191,11 @@ OE & no\\
 
 \begin{figure}
   \includegraphics[width=\linewidth]{Figures/atom_energy_distribution_examples.pdf}
-  \caption{Example histograms of the $fa\_atr$ Lennard-Jones attractive component energy term for several atoms in different atom sets.
-    \textbf{A.} The molecular mechanics atom type CT1, a carbon with one hydrogen, and the atom type of the backbone alpha carbon, among other carbon atoms.
+  \caption{Example histograms of the \textit{fa\_atr} Lennard-Jones attractive component energy term for several atoms in different atom sets.
+    \textbf{A.} The molecular mechanics atom type CT1, a carbon with one hydrogen, and the atom type of the backbone $\alpha$-carbon, among other carbon atoms.
     \textbf{B.} The molecular mechanics atom type CT3, a methyl group, used in several amino acid sidechains.
     \textbf{C.} The elemental atom type C, carbon.
-    \textbf{D.} The Rosetta atom type CAbb, the backbone alpha carbon.
+    \textbf{D.} The Rosetta atom type CAbb, the backbone $\alpha$-carbon.
     The median value shown by the green line is the representative value used to construct the amino acid two body energies.
     The other statistical measures shown(mean, mode, Boltzmann weighted average) were investigated, but not used due to reduced performance.}
   \label{fig:tbaedist}
@@ -215,7 +215,7 @@ The formulation of the two component reference energy for a protein, $E_{TCR}$, 
 %E_{\text{unfolded}} =  W_{1body} \sum_{i}^{n_{\text{res}}} E_{i,1body} +  W_{2body} \sum_{i}^{n_{\text{res}}} E_{i,2body}
 \end{equation}
 
-Where $W_{1B}$ is the weight placed on the one body term, $W_{2B}$ is the weight placed on the two body term, $min(A_{ix})$ is the minimal value for the one body energy term $x$ of the reference energy for residue $i$, and $R_{jx}$ is the median two body energy term $x$ for residue $j$.
+Where $W_{1B}$ is the weight placed on the one body term, $W_{2B}$ is the weight placed on the two body term, $min(A_{ix})$ is the minimal value for the one body energy term \textit{x} of the reference energy for residue \textit{i}, and $R_{jx}$ is the median two body energy term \textit{x} for residue \textit{j}.
 
 \subsection{Calculation of the two body energy term}
 \paragraph{}
@@ -228,17 +228,17 @@ The two body reference energy for the protein is calculated as follows:
 E_{\text{2body}} = W_{2body} \sum_{i}^{n_{\text{res}}} \sum_{j}^{l_{\text{scoreterms}}} W_{j} \sum_{k}^{m_{\text{atoms}}} E_{k}
 \end{equation}
 
-Where $W_{two-body}$ is the weight value for the two body term, $n$ is the total number of residues, $l$ is the score terms $fa\_atr$, $fa\_rep$, $fa\_sol$, $fa\_elec$, $hbond$, and $fa\_dslf13$ for the $talaris2013$ scoring function and the score terms $fa\_atr$, $fa\_rep$, $fa\_elec$, $hbond$, and $fa\_dslf13$ for the $mm\_std$ scoring function, $W_{j}$ is the weight on score term $j$, $m$ is the number of atoms in the residue $i$, and $E_{k}$ is the energy of atom $k$ in the two body atom energy lookup table.
+Where $W_{two-body}$ is the weight value for the two body term, \textit{n} is the total number of residues, \textit{l} is the score terms \textit{fa\_atr}, \textit{fa\_rep}, \textit{fa\_sol}, \textit{fa\_elec}, \textit{hbond}, and \textit{fa\_dslf13} for the \textit{talaris2013} scoring function and the score terms \textit{fa\_atr}, \textit{fa\_rep}, \textit{fa\_elec}, \textit{hbond}, and \textit{fa\_dslf13} for the \textit{mm\_std} scoring function, $W_{j}$ is the weight on score term \textit{j}, \textit{m} is the number of atoms in the residue \textit{i}, and $E_{k}$ is the energy of atom \textit{k} in the two body atom energy lookup table.
 
 
 \subsection{Determining the single-body reference energy component}
 \paragraph{}
 For the one body component of the reference energy, representing the inherent energy of a given sidechain in an unfolded chain, we used a Rosetta simulation of acetylated and N-methylamidated versions of each monomer residue type to simulate the presence of neighboring residues in a chain.
-The backbone phi and psi angles of these residues were iterated in 1 degree bins, with each bin angle minimized using Rosetta's dfpmin minimizer to find local intra-residue energy minima.
+The backbone $\phi$ and $\psi$ angles of these residues were iterated in 1 degree bins, with each bin angle minimized using Rosetta's dfpmin minimizer to find local intra-residue energy minima.
 A low energy sidechain conformation was found for each backbone bin using rotamer repacking followed by minimization identical to that of the backbone.
 The lowest energy conformation among those sampled was taken as the ideal minimal monomeric conformation for each residue type, and their intra-residue energies recorded as the baseline energy introduced into a protein structure by designing that residue.
-This process was carried out using the intra-residue scoring terms for both the $talaris2013$ score function and the $mm\_std$ score function.
-For $talaris2013$, the intra-residue terms are $fa\_intra\_rep$, $pro\_close$, $fa\_dun$, $rama$, $omega$, and $p\_aa\_pp$, while for $mm\_std$, the intra-residue terms are $mm\_lj\_intra\_rep$, $mm\_lj\_intra\_atr$, $mm\_twist$, and $pro\_close$.
+This process was carried out using the intra-residue scoring terms for both the \textit{talaris2013} score function and the \textit{mm\_std} score function.
+For \textit{talaris2013}, the intra-residue terms are \textit{fa\_intra\_rep}, \textit{pro\_close}, \textit{fa\_dun}, \textit{rama}, \textit{omega}, and \textit{p\_aa\_pp}, while for \textit{mm\_std}, the intra-residue terms are \textit{mm\_lj\_intra\_rep}, \textit{mm\_lj\_intra\_atr}, \textit{mm\_twist}, and \textit{pro\_close}.
 
 \paragraph{}
 During runtime, the one body reference energy of a protein is determined by summing the values thus recorded for each residue type in it's sequence, which is then weighted and summed with the other score terms to produce the total energy of the protein.
@@ -248,7 +248,7 @@ The formulation of the one body term for a given protein is described below.
 E_{\text{1body}} = W_{1body} \sum_{i}^{n_{\text{res}}} \sum_{k}^{j_{\text{scoreterms}}} W_{k} E_{restype_{i},k}
 \end{equation}
 
-Where $W_{1body}$ is the one body energy term weight, $n$ is the total number of residues, $j$ is the set of scoreterms used to compute the one body energy term for the current scorefunction(either $talaris2013$ or $mm\_std$), $W_{k}$ is the weight applied to score term k under the energy function in use, and $E_{restype_{i},k}$ is the one body minimal energy value for the score term $k$ for the residue type of residue $i$ in the protein.
+Where $W_{1body}$ is the one body energy term weight, \textit{n} is the total number of residues, \textit{j} is the set of score terms used to compute the one body energy term for the current score function(either \textit{talaris2013} or \textit{mm\_std}), $W_{k}$ is the weight applied to score term \textit{k} under the energy function in use, and $E_{restype_{i},k}$ is the one body minimal energy value for the score term \textit{k} for the residue type of residue \textit{i} in the protein.
 
 
 \subsection{Design Benchmarking via Sequence Recovery}
