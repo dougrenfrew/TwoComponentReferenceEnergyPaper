@@ -31,13 +31,18 @@ The first difference from \textit{talaris2013} is the lack of many of the statis
 Other major differences include the addition of several molecular mechanics-based score terms, as well as the replacement of the statistically derived reference energy \textit{ref} with an explicit energetic model of the unfolded state of each residue, called \textit{unfolded}.
 This \textit{unfolded} term serves the same role as \textit{ref} in the \textit{talaris2013} score function- to provide a baseline weight for each residue type which corrects for the design biases inherent in Rosetta.
 
+\subsection{The structure of the two-component reference energy}
+\paragraph{}
+The two-component reference energy (TCRE) addresses the shortcomings of $unfolded$ by treating the one- and two-body energies of a residue separately.
+By evaluating the two-body scoring terms in the context of folded proteins, the TCRE eliminates any bias towards large residues.
+By evaluating one body energies in the context of an acetylated, methylamidated dipeptide, the TCRE avoids any context-dependent issues of scoring
+% I find the below statement far too vague and speculative. -amw
+%In addition, the method can be applied to arbitrary peptides and peptidomimetics by dynamically constructing residue reference energies from constituent atomic energies in response to the residue types in use, which allows the method to be extended to theoretically arbitrary molecules in Rosetta.
 
 \subsection{Generating per-atom-type two-body energy distributions}
 \paragraph{}
-The two body portion of our two component reference energy consists of energy values for a set of atoms which are summed to determine the reference energy for any given amino acid or peptidomemetic.
-These energy values are obtained from an ensemble of a large number(above order $10^6$ for most atom types) of instances of that atom type in high resolution X-ray protein structures.
-These protein structures were obtained from the Top8000 benchmark set of high quality structures\cite{lovell_structure_2003}, and was scored with Rosetta using a modified protocol that recorded every inter-atomic energy value.
-The two body score terms recorded were \textit{fa\_atr}, \textit{fa\_rep}, \textit{fa\_sol}, \textit{fa\_elec}, \textit{hbond}, and \textit{dslf\_fa13}.
+The "two-body" component of the split unfolded energy is derived from examining the distribution of individual two-body scoring terms over all the occurrences of a given atom type in a high quality set of protein structures.
+Examining the Top8000 benchmark set of high quality structures\cite{lovell_structure_2003} furnished a sample of around $10^6$ examples for most atom types. These structures were scored with Rosetta using a modified protocol that recorded every inter-atomic energy value for the scoring terms \textit{fa\_atr}, \textit{fa\_rep}, \textit{fa\_sol}, \textit{fa\_elec}, \textit{hbond}, and \textit{dslf\_fa13}.
 These energy values were grouped by atom type, and statistics were computed on the score distributions to provide expected energies for that atom type in a well-folded protein.
 We tested several different sets of atom types to determine which description of the atoms of an amino acid residue would best describe the inter-residue interactions expected for that residue.
 As two limit cases, we examined elemental types, wherein all atoms of the same element are alike, as well as unique atom types, where every atom from every residue type was assigned a different group.
@@ -127,7 +132,7 @@ A full list of molecular mechanics atom types for which two body energy distribu
 %Rosetta & Br & no\\
 %Rosetta & F & no\\
 %\hline
-\begin{tabular}{c|lll}
+\begin{tabular}{c|l}
 Atom Type & Natural?\\
 \hline
 HS & yes\\
