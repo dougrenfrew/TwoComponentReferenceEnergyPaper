@@ -2,19 +2,17 @@
 
 \subsection{Rosetta scoring functionality and relevant score functions}
 \paragraph{}
-Rosetta uses multiple scoring functions for evaluating macromolecule structures, called poses, in different contexts. 
+Rosetta uses multiple scoring functions for evaluating macromolecule structures, called poses, in different contexts.
 Each score function is a weighted sum of scoring terms that describe some energetic property of the pose.
 These energy terms are either physically or statistically derived and may be functions of one or two atoms or residues.
 The individual weights, $W_x$, on each energy term are typically fit using a special protocol called OptE\cite{leaver-fay_chapter_2013}.
 
-\begin{quote} 
-The Rosetta scoring function can be expressed as follows:
+The Rosetta scoring function can be expressed as in equation \ref{equ:rosetta_sum_of_terms}, where \textit{n} is the total number of residues, $W_{x}$ is the weight on energy term \textit{x} (eg.\ \textit{fa\_rep}, \textit{fa\_sol}, etc.), $E_{x,i}$ is the energy for energy term \textit{x} for the residue at position \textit{i}.
 
 \begin{equation}
-E_{\text{pose}} = \sum_{i}^{n_{\text{res}}} W_{x} E_{x,i} + ... + W_{y} E_{y,i}
+  \label{equ:rosetta_sum_of_terms}
+  E_{\text{pose}} = \sum_{i}^{n_{\text{res}}} W_{x} E_{x,i} + ... + W_{y} E_{y,i}
 \end{equation}
-Where \textit{n} is the total number of residues, $W_{x}$ is the weight on energy term \textit{x} (eg.\ \textit{fa\_rep}, \textit{fa\_sol}, etc.), $E_{x,i}$ is the energy for energy term \textit{x} for the residue at position \textit{i}. 
-\end{quote}
 
 \paragraph{}
 % I hate the phrase "designed for general purpose protein evaluation" but I'm not sure of a better successor. Really, I just want to say that it's only compatible with canonical amino acids...
@@ -48,34 +46,29 @@ As limiting cases, we considered elemental types, where all atoms of the same el
 The Top8000 benchmark set of high quality structures\cite{lovell_structure_2003} provides around $10^6$ examples of most atom types. These structures were scored with Rosetta using a modified protocol that recorded every inter-atomic energy value for the scoring terms \textit{fa\_atr}, \textit{fa\_rep}, \textit{fa\_sol}, \textit{fa\_elec}, \textit{hbond}, and \textit{dslf\_fa13}.
 These inter-atomic energies were evaluated on each example of each atom type, and a measure of centrality was extracted from the resulting distribution.
 
-%Table to illustrate the differences between the atom type sets. 
-\begin{table}[!htbp]
-
-\fontsize{9pt}{9pt}
-\selectfont
-
-\begin{tabular}{c|lllll}
-Residue & Atom Name & Elemental Type & Rosetta Type & MM Type & Unique Type\\
-\hline
-GLY & $\alpha$-Carbon & C & CAbb & CT1 & GLY/2\\
-ALA & $\alpha$-Carbon & C & CAbb & CT1 & ALA/2\\
-ALA & $\beta$-Carbon & C & CH3 & CT3 & ALA/5\\
-ALA & Carboxyl Carbon & C & CObb & C & ALA/3\\
-%Perhaps two more that differentiate Rosetta and MM?
-\end{tabular}
-
-\fontsize{10pt}{11pt}
-\selectfont
-\caption{The four atom type sets categorize the above examples of carbon atoms commonly found in protein structures quite differently.}
-\label{tab:atypes_example}
-
+%Table to illustrate the differences between the atom type sets.
+\begin{table}
+  \centering
+  \caption{The four atom type sets categorize the above examples of carbon atoms commonly found in protein structures quite differently.}
+  \label{tab:atypes_example}
+  \begin{tabular}{clllll}
+    \toprule
+    Residue & Atom Name & Elemental Type & Rosetta Type & MM Type & Unique Type\\
+    \midrule
+    GLY & $\alpha$-Carbon & C & CAbb & CT1 & GLY/2\\
+    ALA & $\alpha$-Carbon & C & CAbb & CT1 & ALA/2\\
+    ALA & $\beta$-Carbon & C & CH3 & CT3 & ALA/5\\
+    ALA & Carboxyl Carbon & C & CObb & C & ALA/3\\
+    %Perhaps two more that differentiate Rosetta and MM?
+    \bottomrule
+  \end{tabular}
 \end{table}
 
 \paragraph{}
 We evaluated the mean, median, mode, and Boltzmann-weighted average as central measures for each scoring term.
 The median exhibited a slight advantage in sequence recovery benchmarks (FIGURE?!) and was used in all further testing.
 
-\subsection{Atom types only found in NCAAs} 
+\subsection{Atom types only found in NCAAs}
 \paragraph{}
 A limited number of atom types found in NCAAs currently implemented in Rosetta are not found in canonical amino acids, and thus cannot be scored using the Top8000 data set.
 To obtain expected energy distributions for these atom types, which include e.g. the halogens, we mutated all instances of a canonical residue type to a noncanonical analogue that includes the atom type in question and performed limited rotamer repacking and mimimization to resolve clashes.
@@ -84,10 +77,9 @@ Table \ref{tab:atypes_all} describes the molecular mechanics atom types which ha
 
 
 %Probably want to trim this to just NCAA atom types and/or move it to the supplement...
-\begin{table}[!htbp]
-
-\fontsize{7pt}{7pt}
-\selectfont
+\begin{table}
+  \caption{MM atom types found only in NCAAs for which two body energies were obtained.}
+  \label{tab:atypes_all}
 
 %\begin{tabular}{c|lll}
 %Atom Type Set & Atom Type & Natural?\\
@@ -128,9 +120,10 @@ Table \ref{tab:atypes_all} describes the molecular mechanics atom types which ha
 %Rosetta & Br & no\\
 %Rosetta & F & no\\
 %\hline
-\begin{tabular}{c|l}
-Atom Type & description\\
-\hline
+  \begin{tabular}{c|l}
+    \toprule
+    Atom Type & description\\
+    \midrule
 %HS & yes\\
 %NC2 & yes\\
 %NR2 & yes\\
@@ -167,26 +160,21 @@ Atom Type & description\\
 %CPH1 & yes\\
 %CPH2 & yes\\
 %\hline
-BR & bromine\\
-CAP & aromatic carbon in pyridine ring\\
-CE1 & monosubstituted alkene carbon\\
-CE2 & terminal alkene carbon\\
-CF1 & monofluorinated carbon\\
-CF3 & trifluorinated carbon\\
-CL & chlorine\\
-F1 & fluorine on CH$_2$R\\
-F3 & fluorine on CF$_2$R\\
-HE1 & proton on monosubstituted alkene carbon \\
-HE2 & proton on terminal alkene carbon\\
-I & iodine\\
-OE & ether oxygen\\
-\end{tabular}
-
-\fontsize{10pt}{11pt}
-\selectfont
-\caption{MM atom types found only in NCAAs for which two body energies were obtained.}
-\label{tab:atypes_all}
-
+    BR & bromine\\
+    CAP & aromatic carbon in pyridine ring\\
+    CE1 & monosubstituted alkene carbon\\
+    CE2 & terminal alkene carbon\\
+    CF1 & monofluorinated carbon\\
+    CF3 & trifluorinated carbon\\
+    CL & chlorine\\
+    F1 & fluorine on CH$_2$R\\
+    F3 & fluorine on CF$_2$R\\
+    HE1 & proton on monosubstituted alkene carbon \\
+    HE2 & proton on terminal alkene carbon\\
+    I & iodine\\
+    OE & ether oxygen\\
+    \bottomrule
+  \end{tabular}
 \end{table}
 
 
