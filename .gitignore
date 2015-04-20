@@ -107,3 +107,12 @@ sympy-plots-for-*.tex/
 
 # xindy
 *.xdy
+
+
+# from latex-makefile build
+*.aux.make
+*.auxbbl.make
+*.auxtarget.make
+*.d
+*.out.make
+*.toc.make
