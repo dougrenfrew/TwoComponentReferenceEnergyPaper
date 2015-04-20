@@ -1,28 +1,23 @@
 \section{Introduction}
 \subsection{Computational design of proteins and peptidomemetics}
-\paragraph{}
 The computational design of macromolecules like proteins has permitted dramatic advances in chemical and synthetic biology.
 Protein design has resulted in advances in basic knowledge, such as the creation of proteins with novel folds\cite{kuhlman_design_2003}, as well as industrial and medical applications, such as the creation and optimization of enzymes that can conduct reactions that are not performed by natural enzymes\cite{jiang_denovo_2008,rothlisberger_kemp_2008}.
 
-\paragraph{}
 In recent years, the potential to extend existing peptide design methods to chemically diverse groups of heteropolymer molecules which display peptide-like properties such as secondary and tertiary structure.
 Examples include peptoids\cite{renfrew_incorporation_2012}, oligo-oxopiperazines\cite{lao_rational_2014}, and $\beta$-peptides\cite{molski_remodeling_2012}, among others.
 These molecules are an attractive alternative to peptides for drug design due to their high bioavailability, resistance to proteolysis, and ability to bind competitively at protein binding sites with high affinity by mimicking the conformation of the natural binding partner\cite{lao_rational_2014}.
 Similarly, incorporating non-natural side chains in peptides may yield increases in binding affinity and specificity as well as protein stability relative to proteins containing only the canonical twenty amino acids\cite{horng_values_2003}.
 
-\paragraph{}
 Proteins and peptides containing only the canonical amino acids can be optimized for a variety of applications with Rosetta\cite{leaver-fay_chapter_2011,jiang_denovo_2008,rothlisberger_kemp_2008,raveh_scheuler_furman_2011}.
 The incorporation of non-canonical amino acids (NCAAs) and peptidomimetics is ongoing.
 While it is now possible to design with a variety of NCAAs in Rosetta\cite{renfrew_incorporation_2012,drew_adding_2013}, NCAA design still faces several issues in practice which make it difficult to apply to many problems.
 Chief among these is the difficulty in correcting for the statistical and energetic biases towards certain residue types that result from Rosetta's sampling methods and energy model.
 
 \subsection{Rosetta design and the need to adjust for statistical bias}
-\paragraph{}
 Unlike continuous transformations to a protein structure, such as altering internal coordinates, changes in sequence are discrete.
 Within Rosetta, each side chain is represented as a rotational isomer called a rotamer.
 Therefore, changes in sequence are accomplished via rotamer substitution; a protein or peptide may be redesigned by repacking its sidechains while permitting those residues to change their amino acid identity\cite{leaver-fay_chapter_2011}.
 
-\paragraph{}
 One issue with this state-based approach is that design moves that would substitute a residue with many $\chi$(chi) angles are relatively disfavored. For example, in any particular protein conformation, relatively few of lysine's 81 rotamers are energetically favorable.
 As a result, these residues tend to be excessively unfavorable in design\cite{leaver-fay_chapter_2013,rohl_protein_2004}.
 An additional scoring term, called a reference energy, can be incorporated for every amino acid to account for this bias. 
@@ -32,20 +27,17 @@ Without this term, Rosetta suffers from reduced sequence recovery in native prot
 
 \subsection{The existing noncanonical reference energy in Rosetta}
 
-\paragraph{}
 While this statistical weighting works well for canonical amino acid types for which an ideal native residue frequency exists, NCAAs and peptidomemetics cannot benefit from a statistically derived reference energy or sequence recovery benchmark.
 The initial incorporation of NCAAs into Rosetta featured the development of the \textit{unfolded} energy term, which took the place of the canonical reference energy\cite{renfrew_incorporation_2012}.
 The \textit{unfolded} energy was created by taking native 5-mer fragments and mutating the central residue to the desired residue type; the average energy would thus reflect an intrinsic energetic expectation for that residue type.
 Using the \textit{unfolded} term, the non-canonical scoring function \textit{mm\_std} was able to achieve useful levels of sequence recovery.
 
-\paragraph{}
 The unfolded state energy has enabled the design and synthesis of NCAA-containing peptides and peptidomimetics\cite{lao_rational_2014,drew_adding_2013}, but it can be improved in several ways.
 First, it relies on fragments from natural peptides, which have backbone angles that may not correlate well to non-peptidic scaffolds like the oligo-oxopiperazine.
 Second, it is not impossible to mutate the central residue of a 5-mer fragment to a $\beta$-amino acid due to its additional backbone atom.
 Third, the average score of a typical 5-mer fragment possesses a very small attractive term and a relatively large solvation penalty, because few fragment residues contact the central side-chain. 
 Thus, the \textit{unfolded} energy tends to favor large, hydrophobic residues: even solvent-exposed positions, which ordinarily are quite polar in nature, may be redesigned to tryptophan because their \textit{unfolded} score already possesses a large desolvation penalty.
 
-\paragraph{}
 The two-component reference energy (TCRE) addresses each of these issues.
 The TCRE improves upon the existing $unfolded$ term for NCAAs; it additionally could replace or supplement the statistical \textit{ref} term for use with the canonical scoring function.
 

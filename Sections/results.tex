@@ -2,7 +2,6 @@
 
 
 \subsection{One and Two Body Unfolded Energy Terms}
-\paragraph{}
 We developed and implemented in Rosetta two energy terms which represent the one body and two body portions of the expected energy of a given residue type, called \textit{unfolded} and \textit{split\_unfolded\_two\_body} respectively. 
 These terms constitute a two component reference energy, which can be used as a physical and statistical ``weight'' on a given residue type to bias design towards or away from sites of calculated low energy for that residue type.
 These terms are extensible and can be applied to novel residue types, including peptidomemetics containing exotic backbone elements, with a minimum of additional development, and we present them here with all 20 canonical amino acids and a majority of Rosetta-implemented NCAA types functional.
@@ -10,18 +9,15 @@ The implementation of additional NCAA types that use only atom types listed in t
 While the details of doing this differ slightly when additional backbone degrees of freedom are added, for residue types with rotation around only $\phi$ and $\psi$, an application is provided to generate these one body energies, found under \textit{src/apps/public/rileyse/FindMinEnergyOfDipeptideAA.cc} in the Rosetta code repository.
 Usage details can be found in the methods section.
 
-\paragraph{}
 The \textit{unfolded} term we have implemented, while sharing much of it's code with the $unfolded$ score term implemented in 2012 Renfrew at al\cite{renfrew_incorporation_2012}, is distinct in function and generation from the older term.
 The newer term consists of a sum of the intra-residue energy terms used in Rosetta for the residue in it's minimum energy dipeptide form(i.e. possessing capping acetyl and N-methyl groups to mimic adjacent backbone atoms), as a measure of the minimum energetic contribution of the residue to a folded protein structure.
 The older term is an average energy of the residue when inserted as the central residue in a large number of five residue fragments from structured proteins, and includes two body energy terms as well, and is thus not directly comparable to this new \textit{unfolded} term.
 
-\paragraph{}
 The two body term \textit{split\_unfolded\_two\_body}, meanwhile, is an average intra-residue energy for a given residue type taken from many instances in folded protein structures from the top8000 high quality protein structure benchmark\cite{lovell_structure_2003}.
 This term represents the expected two body energy of a residue in a folded protein context, and serves as a benchmark during design to tell how a designed instance of a residue type compares to the expected case, which is assumed to be a well satisfied instance of that residue type.
 
 
 \subsection{Modifications to the mm\_std score function}
-\paragraph{}
 In addition to the development of our two component reference energy terms, we also made several revisions and updates to the \textit{mm\_std} score function, previously described by Renfrew et al in \cite{renfrew_incorporation_2012}, and which is currently the standard scoring function for non-canonical design tasks in Rosetta.
 Since this score function was introduced, several significant updates to canonical protein scoring function were published with the introduction of the \textit{talaris2013} score function, which replaced \textit{score12\_full} as the standard Rosetta scoring function\cite{leaver-fay_chapter_2013}.
 Some of these updates could be easily ported over to \textit{mm\_std}, specifically a proper electrostatics term, \textit{fa\_elec}, which was previously lacking in \textit{mm\_std}, and an updated disulfide bond term, \textit{dslf\_fa13}.
@@ -35,7 +31,6 @@ The results of this test can be seen in table \ref{tab:performance}.
 
 
 \subsection{Optimization of the one and two body term weights}
-\paragraph{}
 As the Rosetta score function is a composite of a diverse set of physical and statistical energy terms, adjusting the relative energetic contribution of each term via a set of score term weights is essential to achieve high performance on sequence recovery and other benchmark tasks\cite{rohl_protein_2004,leaver-fay_chapter_2013}.
 As such, we fit weights $W_{2body}$ and $W_{1body}$ for \textit{unfolded} and \textit{split\_unfolded\_two\_body} respectively using the Rosetta sequence recovery benchmark test\cite{leaver-fay_chapter_2013} and a simple grid-based search technique.
 We scanned combinations of $W_{2body}$ and $W_{1body}$ across the range of 1.0 to -1.0 for each weight(the typical range for Rosetta score term weights) in increments 0.1 for the \textit{talaris2013} score function, using the \textit{unique} atom type set.
@@ -48,7 +43,6 @@ The top performing weight values for each combination of score function and atom
 A longer ranged scan was also performed for \textit{talaris2013} with the unique atom type set, testing values between 5.0 and -5.0 in increments of 0.1, but the sequence recovery landscape beyond the 1.0 to -1.0 range was highly uniform, and thus was not explored further.
 
 \subsection{Stability of sequence recovery results}
-\paragraph{}
 While the sequence recovery heat maps produced by our gridsearch process are both smooth and consistent across both score functions and atom type sets, we additionally confirmed the stability of the sequence recovery scores reported by computing 10 replicates sequence recovery tests using the best performing weight values from the \textit{talaris2013} unique atom type set grid search, shown below in table \ref{tab:performance}.
 Using this set, we calculated a sample standard deviation of the replicates for each class of amino acid as well as the total. 
 The standard deviation values obtained were 0.0094, 0.0202, 0.0274, and 0.0308 for hydrophobic, polar, positive, and negative amino acids respectively.
@@ -75,12 +69,10 @@ Given the similarity in shape of the performance space across the various config
 \end{figure}
 
 \subsection{The two component reference energy is robust over diverse input energies}
-\paragraph{}
 Based on the results in figure \ref{fig:gridsearch_atypes}, we observe that the behavior of our two component reference energy terms in the explored weight space does change somewhat between the various two body atom sets, despite the scommon protocol for how the differing low level energetic inputs are combined.
 Interestingly, however, the high recovery region of weight space for each atom type set seems to be mostly overlapping, though differing in shape somewhat, which suggests that the differences in weight space behavior are due to boundry behaviors rather than a major shift in the assembled reference energies of the amino acids.
 Unexpectedly, we observe that the unique atom type set produces a much more defined high recovery plateau than either of the less-specified atom types, as well as having a much broader range of weight values within that plateau.
 
-\paragraph{}
 Further, we observe in table \ref{tab:performance} that sequence recovery with \textit{talaris2013} using elemental atom types(the most general lower bound on energetic specificity) is significantly higher than than that of \textit{talaris2013} with no reference energy term, suggesting that our two component energy terms are very robust to generalizations and imprecisions in their input energies.
 In addition, that \textit{talaris2013} using unique atom types(the most specific upper bound on energetic specificity) performs best and the same with elemental types worst does suggest that the additional two body energy specificity of the unique atom type set, wherein each amino acid type is considered to have its own two body energy based only on atoms in that amino acid type, has significant benefits for sequence recovery.
 %Note to self: Check out what the actual compiled reference values are for each amino acid at some point, and have a table of those.
@@ -118,7 +110,6 @@ Variant results shown are using the best discovered one and two body weights fro
 
 
 \subsection{The two component reference terms perform comparably to \textit{ref}}
-\paragraph{}
 Interestingly, while development of our two component reference energy was primarily motivated by the desire for compatability with NCAA's under the \textit{mm\_std} score function, it is surprisingly competitive with the statistical reference energy \textit{ref} under the \textit{talaris2013} score function.
 Using the unique atom type set, our best set of weights achieved a level of sequence recovery comparable to that of \textit{talaris2013} with \textit{ref}---
 We report in table \ref{tab:performance} a total sequence recovery of 0.3935 for \textit{talaris2013} using \textit{ref}, and a recovery of 0.3955 for \textit{talaris2013} using the two component reference terms, which are functionally equivalent given the level of variance described above.
@@ -136,7 +127,6 @@ The two body term was calculated using the unique atom type set, with weights of
   \label{fig:aa_recovery}
 \end{figure}
 
-\paragraph{}
 The specific breakdown of sequence recovery by amino acid type can be found in figure \ref{fig:aa_recovery}, and shows that this trend is largely born out for each residue type.
 Most two component reference energy amino acid recoveries are intermediate between the unreferenced \textit{talaris2013} recovery and that of \textit{talaris2013} plus \textit{ref}, though a few residue recoveries- specifically alanine, serine, threonine, histidine, and glycine- are higher than \textit{talaris2013} with or without \textit{ref} included.
 
