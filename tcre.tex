@@ -19,7 +19,7 @@
   backend=biber,
   style=nature,
   natbib=true,
-  url=false, 
+  url=false,
   doi=false,
   isbn=false,
   eprint=false,
@@ -30,10 +30,9 @@
 \addbibresource{Bibliography/byhand.bib}
 
 %%% revision information
-%Removed git infor for thesis version.
-%\usepackage[mark]{gitinfo2}
-%\renewcommand{\gitMark}{Branch: \gitBranch @\gitAbbrevHash \gitDirty\ \textbullet{} Author: \gitAuthorName\,(\gitAuthorIsoDate) \textbullet{} Tags: \gitTags}
-%\renewcommand{\gitMarkFormat}{\small}
+\usepackage[mark]{gitinfo2}
+\renewcommand{\gitMark}{Branch: \gitBranch @\gitAbbrevHash \gitDirty\ \textbullet{} Author: \gitAuthorName\,(\gitAuthorIsoDate) \textbullet{} Tags: \gitTags}
+\renewcommand{\gitMarkFormat}{\small}
 
 %%% clicakable colored links
 \usepackage{xcolor}
@@ -80,7 +79,7 @@
 
 \maketitle
 
-%%% abstract 
+%%% abstract
 \input{Sections/abstract}
 
 %%% toc
