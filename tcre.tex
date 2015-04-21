@@ -57,11 +57,12 @@
 %%% better tables
 \usepackage{booktabs}
 
-%%% dummy text
-\usepackage{lipsum}
-
 %%% generate tables from csv files
 \usepackage{pgfplotstable}
+
+%%% red colored margin notes
+\usepackage{marginnote}
+\renewcommand*{\marginfont}{\color{red}\sffamily}
 
 %%% title
 \title{Two-Component Reference Energy for the Design of Proteins and Foldamers}
@@ -86,7 +87,7 @@
 \tableofcontents
 
 %%% demo
-%\input{Sections/demo}
+\input{Sections/demo}
 
 %%% sections
 \input{Sections/introduction}

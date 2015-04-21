@@ -20,7 +20,7 @@ Therefore, changes in sequence are accomplished via rotamer substitution; a prot
 
 One issue with this state-based approach is that design moves that would substitute a residue with many $\chi$(chi) angles are relatively disfavored. For example, in any particular protein conformation, relatively few of lysine's 81 rotamers are energetically favorable.
 As a result, these residues tend to be excessively unfavorable in design\cite{leaver-fay_chapter_2013,rohl_protein_2004}.
-An additional scoring term, called a reference energy, can be incorporated for every amino acid to account for this bias. 
+An additional scoring term, called a reference energy, can be incorporated for every amino acid to account for this bias.
 In the Rosetta canonical amino acid scoring function, this reference energy term is called \textit{ref} and consists of a series of 20 weights, one for each canonical amino acid.
 These weights are trained to maximize sequence recovery on a set of protein crystal structures.
 Without this term, Rosetta suffers from reduced sequence recovery in native proteins, as well as highly imbalanced design frequencies\cite{rohl_protein_2004}.
@@ -35,11 +35,8 @@ Using the \textit{unfolded} term, the non-canonical scoring function \textit{mm\
 The unfolded state energy has enabled the design and synthesis of NCAA-containing peptides and peptidomimetics\cite{lao_rational_2014,drew_adding_2013}, but it can be improved in several ways.
 First, it relies on fragments from natural peptides, which have backbone angles that may not correlate well to non-peptidic scaffolds like the oligo-oxopiperazine.
 Second, it is not impossible to mutate the central residue of a 5-mer fragment to a $\beta$-amino acid due to its additional backbone atom.
-Third, the average score of a typical 5-mer fragment possesses a very small attractive term and a relatively large solvation penalty, because few fragment residues contact the central side-chain. 
+Third, the average score of a typical 5-mer fragment possesses a very small attractive term and a relatively large solvation penalty, because few fragment residues contact the central side-chain.
 Thus, the \textit{unfolded} energy tends to favor large, hydrophobic residues: even solvent-exposed positions, which ordinarily are quite polar in nature, may be redesigned to tryptophan because their \textit{unfolded} score already possesses a large desolvation penalty.
 
 The two-component reference energy (TCRE) addresses each of these issues.
 The TCRE improves upon the existing $unfolded$ term for NCAAs; it additionally could replace or supplement the statistical \textit{ref} term for use with the canonical scoring function.
-
-
-
