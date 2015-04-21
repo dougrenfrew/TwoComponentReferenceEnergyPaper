@@ -112,6 +112,7 @@ sympy-plots-for-*.tex/
 # from latex-makefile build
 *.aux.make
 *.auxbbl.make
+*.auxbbl.make.temp
 *.auxtarget.make
 *.d
 *.out.make
