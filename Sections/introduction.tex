@@ -5,12 +5,11 @@ Protein design has resulted in advances in basic knowledge, such as the creation
 
 In recent years, the potential to extend existing peptide design methods to chemically diverse groups of heteropolymer molecules which display peptide-like properties such as secondary and tertiary structure.
 Examples include peptoids\cite{renfrew_incorporation_2012}, oligo-oxopiperazines\cite{lao_rational_2014}, and $\beta$-peptides\cite{molski_remodeling_2012}, among others.
-These molecules are an attractive alternative to peptides for drug design due to their high bioavailability, resistance to proteolysis, and ability to bind competitively at protein binding sites with high affinity by mimicking the conformation of the natural binding partner\cite{lao_rational_2014}.
+These molecules are an attractive alternative to peptides for drug design due to their high bioavailability, resistance to proteolysis, ease of sysnthesis, and ability to bind competitively at protein binding sites with high affinity by mimicking the conformation of the natural binding partner\cite{lao_rational_2014}.
 Similarly, incorporating non-natural side chains in peptides may yield increases in binding affinity and specificity as well as protein stability relative to proteins containing only the canonical twenty amino acids\cite{horng_values_2003}.
 
-Proteins and peptides containing only the canonical amino acids can be optimized for a variety of applications with Rosetta\cite{leaver-fay_chapter_2011,jiang_denovo_2008,rothlisberger_kemp_2008,raveh_schueler-furman_2011}.
-The incorporation of non-canonical amino acids (NCAAs) and peptidomimetics is ongoing.
-While it is now possible to design with a variety of NCAAs in Rosetta\cite{renfrew_incorporation_2012,drew_adding_2013}, NCAA design still faces several issues in practice which make it difficult to apply to many problems.
+Proteins and peptides containing only the canonical amino acids can be optimized for a variety of applications with Rosetta\cite{leaver-fay_chapter_2011,jiang_denovo_2008,rothlisberger_kemp_2008,raveh_schueler-furman_2011}.\marginnote{Introduce Rosetta before mentioning it.}
+While it is now possible to design with a variety of NCAAs in Rosetta\cite{renfrew_incorporation_2012,drew_adding_2013}, NCAA design still faces several issues in practice which make it difficult to apply to many problems.\marginnote{This is where we need to mention the NCAA, NCBB highlight reel.}
 Chief among these is the difficulty in correcting for the statistical and energetic biases towards certain residue types that result from Rosetta's sampling methods and energy model.
 
 \subsection{Rosetta design and the need to adjust for statistical bias}
@@ -22,14 +21,13 @@ One issue with this state-based approach is that design moves that would substit
 As a result, these residues tend to be excessively unfavorable in design\cite{leaver-fay_chapter_2013,rohl_protein_2004}.
 An additional scoring term, called a reference energy, can be incorporated for every amino acid to account for this bias.
 In the Rosetta canonical amino acid scoring function, this reference energy term is called \textit{ref} and consists of a series of 20 weights, one for each canonical amino acid.
-These weights are trained to maximize sequence recovery on a set of protein crystal structures.
+These weights are trained to maximize sequence recovery on a set of protein crystal structures.\marginnote{Cite OptE paper}
 Without this term, Rosetta suffers from reduced sequence recovery in native proteins, as well as highly imbalanced design frequencies\cite{rohl_protein_2004}.
 
 \subsection{The existing noncanonical reference energy in Rosetta}
-
-While this statistical weighting works well for canonical amino acid types for which an ideal native residue frequency exists, NCAAs and peptidomemetics cannot benefit from a statistically derived reference energy or sequence recovery benchmark.
+Statistical weighting works for canonical amino acid types for which an ideal native residue frequency exists, NCAAs and peptidomemetics cannot benefit from a statistically derived reference energy or sequence recovery benchmark.\marginnote{why?}
 The initial incorporation of NCAAs into Rosetta featured the development of the \textit{unfolded} energy term, which took the place of the canonical reference energy\cite{renfrew_incorporation_2012}.
-The \textit{unfolded} energy was created by taking native 5-mer fragments and mutating the central residue to the desired residue type; the average energy would thus reflect an intrinsic energetic expectation for that residue type.
+The \textit{unfolded} energy was created by taking native 5-mer fragments and mutating the central residue to the desired residue type; the average energy would thus reflect an intrinsic energetic expectation for that residue type.\marginnote{Save this type of stuff for methods.}
 Using the \textit{unfolded} term, the non-canonical scoring function \textit{mm\_std} was able to achieve useful levels of sequence recovery.
 
 The unfolded state energy has enabled the design and synthesis of NCAA-containing peptides and peptidomimetics\cite{lao_rational_2014,drew_adding_2013}, but it can be improved in several ways.
@@ -39,4 +37,4 @@ Third, the average score of a typical 5-mer fragment possesses a very small attr
 Thus, the \textit{unfolded} energy tends to favor large, hydrophobic residues: even solvent-exposed positions, which ordinarily are quite polar in nature, may be redesigned to tryptophan because their \textit{unfolded} score already possesses a large desolvation penalty.
 
 The two-component reference energy (TCRE) addresses each of these issues.
-The TCRE improves upon the existing $unfolded$ term for NCAAs; it additionally could replace or supplement the statistical \textit{ref} term for use with the canonical scoring function.
+The TCRE improves upon the existing $unfolded$ term for NCAAs; it additionally could replace or supplement the statistical \textit{ref} term for use with the canonical scoring function.\marginnote{This needs to finish much stronger!}
