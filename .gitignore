@@ -117,3 +117,4 @@ sympy-plots-for-*.tex/
 *.d
 *.out.make
 *.toc.make
+*.pdf.*.make
