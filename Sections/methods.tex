@@ -1,6 +1,6 @@
 \section{Methods}
 
-\subsection{Rosetta scoring functionality and relevant score functions}
+\subsection{Rosetta scoring functionality and relevant score functions}\marginnote{This needs to be expanded. Similar to the background document.}
 Rosetta uses multiple scoring functions for evaluating macromolecule structures, called poses, in different contexts.
 Each score function is a weighted sum of scoring terms that describe some energetic property of the pose.
 These energy terms are either physically or statistically derived and may be functions of one or two atoms or residues.
@@ -25,7 +25,7 @@ The energy terms of this score function are \textit{fa\_atr}, \textit{fa\_rep}, 
 Since such statistical potentials are not available for NCAAs in general, the molecular mechanics potentials are included to compensate.
 Crucially, \textit{mm\_std} replaces \textit{ref} with an explicit energetic model of the unfolded state of each residue, called \textit{unfolded}.
 
-\subsection{The structure of the two-component reference energy}
+\subsection{The structure of the two-component reference energy}\marginnote{This is the crux of the whole paper. Need the equation.}
 The two-component reference energy (TCRE) addresses the aforementioned shortcomings of $unfolded$ by treating the one- and two-body energies of a residue separately.
 By evaluating the two-body scoring terms in the context of folded proteins, the TCRE eliminates any bias towards large residues.
 By evaluating one body energies in the context of an acetylated, methylamidated dipeptide, the TCRE avoids any context-dependent issues of scoring
