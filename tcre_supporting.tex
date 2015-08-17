@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% master document for tcre.tex
+%%% master document for tcre_supporting.tex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% class
@@ -74,10 +74,20 @@
 
 %%% references between documents (cross ref)
 \usepackage{xr}
-\externaldocument{tcre_supporting}
+\externaldocument{tcre}
+
+%%% reset figure and table counters and add 'S' to the begingin of the lables
+\newcommand{\beginsupplement}{%
+  \setcounter{table}{0}
+  \renewcommand{\thetable}{S\arabic{table}}%
+  \setcounter{figure}{0}
+  \renewcommand{\thefigure}{S\arabic{figure}}%
+}
+
+
 
 %%% title
-\title{Two-Component Reference Energy for the Design of Proteins and Foldamers}
+\title{Supporting Information: Two-Component Reference Energy for the Design of Proteins and Foldamers}
 
 
 %%% authors & affiliations
@@ -102,21 +112,14 @@
 
 \maketitle
 
-%%% abstract
-\input{Sections/abstract}
-
 %%% toc
 \tableofcontents
 
-%%% demo
-%\input{Sections/demo}
+%%% run supp comand
+\beginsupplement
 
 %%% sections
-\input{Sections/introduction}
-\input{Sections/methods}
-\input{Sections/results}
-\input{Sections/discussion}
-\input{Sections/acknowledgments}
+\input{Sections/supporting}
 
 %%% references
 \printbibliography

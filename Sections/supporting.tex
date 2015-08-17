@@ -1,0 +1,33 @@
+\section{Atom types only found in NCAAs}
+A limited number of atom types found in NCAAs currently implemented in Rosetta are not found in canonical amino acids, and thus cannot be scored using the Top8000 data set.
+To obtain expected energy distributions for these atom types, which include e.g. the halogens, we mutated all instances of a canonical residue type to a noncanonical analogue that includes the atom type in question and performed limited rotamer repacking and mimimization to resolve clashes.
+We analyzed the resulting scoring term distributions in the same way.
+Table \ref{suptab:atypes_all} describes the molecular mechanics atom types which had to be evaluated in this way.
+
+
+%Probably want to trim this to just NCAA atom types and/or move it to the supplement...
+\begin{table}
+  \centering
+  \caption{MM atom types found only in NCAAs for which two body energies were obtained.}
+  \label{suptab:atypes_all}
+
+  \begin{tabular}{c|l}
+    \toprule
+    Atom Type & description\\
+    \midrule
+    BR & bromine\\
+    CAP & aromatic carbon in pyridine ring\\
+    CE1 & monosubstituted alkene carbon\\
+    CE2 & terminal alkene carbon\\
+    CF1 & monofluorinated carbon\\
+    CF3 & trifluorinated carbon\\
+    CL & chlorine\\
+    F1 & fluorine on CH$_2$R\\
+    F3 & fluorine on CF$_2$R\\
+    HE1 & proton on monosubstituted alkene carbon \\
+    HE2 & proton on terminal alkene carbon\\
+    I & iodine\\
+    OE & ether oxygen\\
+    \bottomrule
+  \end{tabular}
+\end{table}
